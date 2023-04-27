@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Loading :active.sync="isLoading"></Loading>
+    <Loading v-model:active="isLoading"></Loading>
     <Navbar/>
     <Alert/>
     <div class="container-fluid">
