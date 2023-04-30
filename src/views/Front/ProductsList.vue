@@ -113,9 +113,6 @@ export default {
         vm.select = 'Все продукты';
         return vm.products.filter((item) => item.title.indexOf(vm.filterText) !== -1);
       }
-      // if (vm.select !== '全部商品') {
-      //   return vm.products.filter(item => item.category === vm.select);
-      // }
       return vm.products;
     },
     ...mapGetters('productsModules', ['products']),

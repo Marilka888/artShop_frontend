@@ -6,7 +6,7 @@
           <div class="sider-rect"></div>
           <div class="sider-content">
             <h3 class="h5 mb-3">ART Shop</h3>
-            <p class="mb-0">Добро пожаловать в ART Shop</p>
+            <p class="mb-0">Магазин изделий мастера Jew Marilka</p>
           </div>
         </div>
       </swiper-slide>
@@ -14,8 +14,8 @@
         <div class="sider sider-left sider-2">
           <div class="sider-rect"></div>
           <div class="sider-content">
-            <h3 class="h5 mb-3">Специальное предложение</h3>
-            <p class="mb-0">Выбор изделий для весеннего настроения</p>
+            <h3 class="h5 mb-3">Изделия на Ваш вкус</h3>
+            <p class="mb-0">Заполняйте дополнительные поля при оформлении заказа</p>
           </div>
         </div>
       </swiper-slide>
@@ -23,8 +23,8 @@
         <div class="sider sider-3">
           <div class="sider-rect"></div>
           <div class="sider-content">
-            <h3 class="h5 mb-3">Подарк на Новый год 2023</h3>
-            <p class="mb-0">Новый год, Вы достойны лучшего</p>
+            <h3 class="h5 mb-3">Вы достойны лучшего</h3>
+            <p class="mb-0">Магазин ручных изделий, сделанных с любовью</p>
           </div>
         </div>
       </swiper-slide>
@@ -101,13 +101,13 @@ export default {
   }
 }
 .sider-1 {
-  background-image: url('../assets/image/banner-1.jpg');
+  background-image: url('../assets/image/banner-1.png');
 }
 .sider-2 {
-  background-image: url('../assets/image/banner-2.jpg');
+  background-image: url('../assets/image/banner-2.png');
 }
 .sider-3 {
-  background-image: url('../assets/image/banner-3.jpg');
+  background-image: url('../assets/image/banner-3.png');
 }
 .sider-rect {
   flex: 1.5;

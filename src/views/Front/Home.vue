@@ -15,50 +15,21 @@
     </ul>
     <CardSider/>
 
-    <!-- news -->
-    <div class="row news">
+    <div class="row cart">
       <div class="col-md-6">
-        <div class="mb-4 news-img news-img-1">
-          <h3 class="mb-3">MODEL</h3>
-          <h3>I'm Sophia</h3>
+        <div class="mb-4 cart-img cart-img">
+          <h3 class="mb-3">Soul</h3>
+          <h3>In our products</h3>
         </div>
-        <div class="mb-4 news-content">
-          <div class="news-border">
-            <h3 class="mb-3">Hot Sale</h3>
-            <p>Popular Products</p>
-            <router-link to="/productslist" class="btn btn-primary"> Go Shop </router-link>
+        <div class="mb-4 cart-content">
+          <div class="cart-border">
+            <h3 class="mb-3">Открой</h3>
+            <p>Мир души и любви</p>
+            <router-link to="/productslist" class="btn btn-primary"> Каталог </router-link>
           </div>
         </div>
       </div>
-      <div class="col-md-6 news-reverse">
-        <div class=" mb-4 news-content">
-          <div class="news-border">
-            <h3 class="mb-3">New Arrival</h3>
-            <p>Summer art</p>
-            <router-link to="/productslist" class="btn btn-primary"> Shop Now </router-link>
-          </div>
-        </div>
-        <div class="mb-4 news-img news-img-2">
-          <h3 class="mb-3">MODEL</h3>
-          <h3>I'm Jessica</h3>
-        </div>
-      </div>
     </div>
-
-    <!-- joinus -->
-    <div class="mb-4 joinus">
-      <div class="joinus-content">
-        <h3 class="mb-4">Join our mailing list for updates</h3>
-        <input type="email" name="email" class="form-control" placeholder="Enter your email*"
-         :class="{'is-invalid': errors.first('email')}" v-validate="'required|email'">
-        <span class="text-danger" v-if="errors.first('email')">
-          {{ errors.first('email') }}
-        </span>
-        <button type="button" class="form-control btn btn-primary mt-3"
-         @click="joinusBtn">Subscribe Now</button>
-      </div>
-    </div>
-
   </div>
 </template>
 
@@ -70,7 +41,7 @@ export default {
   data() {
     return {
       categories: [
-        { name: 'ALL', title: 'Все продукты', icon: 'fas fa-gift fa-2x' },
+        { name: 'Каталог', title: 'Найди себя', icon: 'fas fa-gift fa-2x' },
       ],
     };
   },
@@ -78,16 +49,6 @@ export default {
     categoryBtn(categoryTitle) {
       const vm = this;
       vm.$router.push({ path: '/productslist', query: { category: categoryTitle } });
-    },
-    joinusBtn() {
-      const vm = this;
-      vm.$validator.validate().then((result) => {
-        if (!result) {
-          vm.$store.dispatch('alertMessageModules/updateMessage', { message: 'Пожалуйста, введите правильный формат электронной почты', status: 'danger' });
-        } else {
-          vm.$store.dispatch('alertMessageModules/updateMessage', { message: 'Успешная подписка', status: 'success' });
-        }
-      });
     },
   },
   components: {
@@ -147,8 +108,8 @@ export default {
   }
 }
 
-//news
-.news {
+//cart
+.cart {
   text-align: center;
   h3 {
     font-family: $font-family-title;
@@ -157,7 +118,7 @@ export default {
     font-family: $font-family-text;
   }
 }
-.news-img {
+.cart-img {
   padding: 10rem 0;
   color: $white-color;
   text-shadow: 1px 1px 1px $primary-color;
@@ -165,48 +126,22 @@ export default {
     padding: 5rem 0;
   }
 }
-.news-img-1 {
-  background: url('../../assets/image/news-1.jpg') bottom center no-repeat;
+.cart-img {
+  background: url('../../assets/image/soul.png') bottom center no-repeat;
   background-size: cover;
 }
-.news-img-2 {
-  background: url('../../assets/image/news-2.jpg') center center no-repeat;
-  background-size: cover;
-}
-.news-content {
+.cart-content {
   padding: 2rem;
   background-color: $hot-color;
 }
-.news-border {
+.cart-border {
   padding: 2.5rem 0;
   border: 2.5px $white-color solid;
 }
 @media (max-width: 767px) {
-  .news-reverse {
+  .cart-reverse {
     display: flex;
     flex-direction: column-reverse;
   }
-}
-
-//joinus
-.joinus {
-  padding: 5rem;
-  background: url('https://images.unsplash.com/photo-1519974719765-e6559eac2575?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center center no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
-  text-align: center;
-  @media (max-width: 767px) {
-    padding: 5rem 1rem;
-  }
-  h3 {
-    font-family: $font-family-title;
-    color: $white-color;
-    text-shadow: 1px 1px 1px $primary-color;
-  }
-}
-.joinus-content {
-  padding: 3rem 2rem;
-  background: rgba($hot-color, 0.8);
-  border-radius: 10px;
 }
 </style>

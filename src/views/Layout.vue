@@ -107,10 +107,9 @@
     <div class="bg-light">
       <ul class="d-md-flex footer">
         <li class="px-4">
-          <h5 class="footer-title">Carol's Shop</h5>
+          <h5 class="footer-title">ART Shop</h5>
           <p class="text-muted">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Est recusandae fugiat,
-            nemo harum nobis laborum expedita vero repellendus consectetur nostrum.
+            Магазин ручных изделий, сделанных с душой и любовью для Вас
           </p>
         </li>
         <li>
@@ -125,7 +124,7 @@
               </a>
             </li>
             <li class="text-muted">
-              Адрес: Уголок Земли
+              Адрес: Палатка №1 на пл. Мытищи
             </li>
           </ul>
         </li>
@@ -165,7 +164,7 @@
       </ul>
 
       <div class="copyright">
-        ⓒ 2023 ART Shop by Mary
+        ⓒ 2023 ART Shop by Jew Maria
       </div>
     </div>
 

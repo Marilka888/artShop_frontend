@@ -2,7 +2,7 @@
   <div class="mt-5">
     <Alert/>
     <form class="form-signin" @submit.prevent="signin">
-      <h1 class="h3 mb-3 font-weight-normal text-center">Пожалуйста введите данные ля входа</h1>
+      <h1 class="h3 mb-3 font-weight-normal text-center">Пожалуйста введите данные для входа</h1>
       <label for="inputEmail" class="sr-only">Email address</label>
       <input type="email" id="inputEmail" class="form-control"
              v-model="user.username" placeholder="Email address" required autofocus>
@@ -10,7 +10,7 @@
       <input type="password" id="inputPassword" class="form-control mb-3"
              v-model="user.password" placeholder="Password" required>
       <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Вход</button>
-      <p class="mb-1 text-muted">&copy; 2019</p>
+      <p class="mb-1 text-muted">&copy; 2023</p>
       <router-link class="text-muted" to="/"> &larr; Назад в магазин</router-link>
     </form>
   </div>
