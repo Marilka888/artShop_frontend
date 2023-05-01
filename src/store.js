@@ -9,7 +9,7 @@ import favoriteModules from './store/favorite';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  strict: true, // 嚴謹模式
+  strict: true, // Строгий режим
   state: {
     isLoading: false,
     pagination: {},

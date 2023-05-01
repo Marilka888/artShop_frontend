@@ -13,12 +13,12 @@
       <div class="collapse navbar-collapse toggle-menu" id="navbarSupportedContent">
         <ul class="navbar-nav align-items-center w-100">
           <li class="nav-item">
-            <router-link class="nav-link" to="/">Home</router-link>
+            <router-link class="nav-link" to="/">Главная</router-link>
           </li>
           <li class="nav-item">
             <router-link class="nav-link" to="/productslist"
              :class="{'active': $route.name === 'ProductsList' && 'router-link-active'}">
-             Products
+             Каталог
             </router-link>
           </li>
           <li class="nav-item ml-lg-auto pt-1">
@@ -119,7 +119,7 @@
               <a href="tel:+1234567890" class="text-muted">TEL： 12345678910</a>
             </li>
             <li>
-              <a href="mailto:carolshop@mail.com" class="text-muted">
+              <a href="mailto:art-shop@mail.com" class="text-muted">
                 Mail： art-shop@mail.com
               </a>
             </li>
@@ -132,13 +132,13 @@
           <h5 class="footer-title">Подписывайтесь</h5>
           <ul>
             <li>
-              <a href="#" class="text-primary">
+              <a href="https://memchik.ru/show/cfa872bd512c65333da413ac5d408d7f02b19df7" target="_ blank" class="text-primary">
                 <span class="fa-stack fa-lg">
                   <i class="fas fa-circle fa-stack-2x"></i>
                   <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
                 </span>
               </a>
-              <a href="#" class="text-primary">
+              <a href="https://memchik.ru/show/27e6ff4e2eb9e5011fed64d06be4c8c7adae0f78" target="_ blank" class="text-primary">
                 <span class="fa-stack fa-lg">
                   <i class="fas fa-circle fa-stack-2x"></i>
                   <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
@@ -146,13 +146,13 @@
               </a>
             </li>
             <li>
-              <a href="#" class="text-primary">
+              <a href="https://memchik.ru/show/4dc6f1a3de39e74fbac12126f1dc9da516f73fe1" target="_ blank" class="text-primary">
                 <span class="fa-stack fa-lg">
                   <i class="fas fa-circle fa-stack-2x"></i>
                   <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
                 </span>
               </a>
-              <a href="#" class="text-primary">
+              <a href="https://memchik.ru/show/5dad2d576eb375bea733b562aeb8df672553bff8" target="_ blank" class="text-primary">
                 <span class="fa-stack fa-lg">
                   <i class="fas fa-circle fa-stack-2x"></i>
                   <i class="fab fa-line fa-stack-1x fa-inverse"></i>

@@ -15,11 +15,12 @@
     </ul>
     <CardSider/>
 
+    <!-- cart -->
     <div class="row cart">
       <div class="col-md-6">
-        <div class="mb-4 cart-img cart-img">
-          <h3 class="mb-3">Soul</h3>
-          <h3>In our products</h3>
+        <div class="mb-4 cart-img cart-img-1">
+          <h3 class="mb-3">Подарки</h3>
+          <h3>Для себя</h3>
         </div>
         <div class="mb-4 cart-content">
           <div class="cart-border">
@@ -27,6 +28,19 @@
             <p>Мир души и любви</p>
             <router-link to="/productslist" class="btn btn-primary"> Каталог </router-link>
           </div>
+        </div>
+      </div>
+      <div class="col-md-6 cart-reverse">
+        <div class=" mb-4 cart-content">
+          <div class="cart-border">
+            <h3 class="mb-3">Новые услуги</h3>
+            <p>Деревянные значки</p>
+            <router-link to="/productslist" class="btn btn-primary"> Каталог </router-link>
+          </div>
+        </div>
+        <div class="mb-4 cart-img cart-img-2">
+          <h3 class="mb-3">Подарки</h3>
+          <h3>Для друзей</h3>
         </div>
       </div>
     </div>
@@ -41,7 +55,12 @@ export default {
   data() {
     return {
       categories: [
-        { name: 'Каталог', title: 'Найди себя', icon: 'fas fa-gift fa-2x' },
+        { name: 'Все', title: 'товары', icon: 'fas fa-gift fa-2x' },
+        { name: 'Одежда', title: 'с росписью', icon: 'fas fa-tshirt fa-2x' },
+        { name: 'Носки', title: 'с росписью', icon: 'fas fa-socks fa-2x' },
+        { name: 'Обувь', title: 'с росписью', icon: 'fas fa-shoe-prints fa-2x' },
+        { name: 'Аксессуары', title: 'ручной работы', icon: 'fas fa-democrat fa-2x' },
+        { name: 'Другое', title: 'ручной работы', icon: 'fas fa-shopping-bag fa-2x' },
       ],
     };
   },
@@ -126,8 +145,12 @@ export default {
     padding: 5rem 0;
   }
 }
-.cart-img {
-  background: url('../../assets/image/soul.png') bottom center no-repeat;
+.cart-img-1 {
+  background: url('../../assets/image/cart-1.png') bottom center no-repeat;
+  background-size: cover;
+}
+.cart-img-2 {
+  background: url('../../assets/image/cart-2.png') bottom center no-repeat;
   background-size: cover;
 }
 .cart-content {

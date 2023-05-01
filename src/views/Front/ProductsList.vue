@@ -6,7 +6,7 @@
           <router-link to="/">Домой</router-link>
         </li>
         <li class="breadcrumb-item active">
-          Список продуктов
+          Список услуг
         </li>
         <li class="breadcrumb-item active">
           {{ select }}
@@ -75,7 +75,7 @@
               </div>
             </div>
             <div class="product-more">
-              <router-link :to="`/productslist/${product.id}`">Узнавать больше</router-link>
+              <router-link :to="`/productslist/${product.id}`">Узнать больше</router-link>
               <a href="#" @click.prevent="addToCart(product.id)">
                 Добавить в корзину
               </a>
@@ -97,11 +97,16 @@ import { mapGetters } from 'vuex';
 export default {
   data() {
     return {
-      select: 'Все продукты',
+      select: 'Все услуги',
       filterText: '',
       searchText: '',
       categories: [
-        { title: 'Все продукты', icon: 'fas fa-gift' },
+        { title: 'Все', icon: 'fas fa-gift' },
+        { title: 'Одежда', icon: 'fas fa-tshirt' },
+        { title: 'Носки', icon: 'fas fa-socks' },
+        { title: 'Обувь', icon: 'fas fa-shoe-prints' },
+        { title: 'Аксессуары', icon: 'fas fa-democrat' },
+        { title: 'Другое', icon: 'fas fa-shopping-bag' },
       ],
     };
   },
@@ -109,9 +114,11 @@ export default {
     filterProducts() {
       const vm = this;
       if (vm.filterText) {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        vm.select = 'Все продукты';
-        return vm.products.filter((item) => item.title.indexOf(vm.filterText) !== -1);
+        vm.select = 'Все услуги';
+        return vm.products.filter(item => item.title.indexOf(vm.filterText) !== -1);
+      }
+      if (vm.select !== 'Все услуги') {
+        return vm.products.filter(item => item.category === vm.select);
       }
       return vm.products;
     },

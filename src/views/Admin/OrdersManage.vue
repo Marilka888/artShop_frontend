@@ -54,7 +54,7 @@ export default {
   methods: {
     getOrders(page = 1) {
       const vm = this;
-      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/orders?page=${page}`;
+      const url = `${process.env.VUE_APP_APIPATH}/api/orders/admin/all`;
       vm.$store.dispatch('updateLoading', true);
       vm.$http.get(url).then((response) => {
         if (response.data.success) {

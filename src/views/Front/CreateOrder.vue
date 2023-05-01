@@ -4,12 +4,12 @@
       <li class="bg-light" :class="{'bg-dark text-light active': step === 1}">
         <strong>STEP</strong>
         <h3><strong>01</strong></h3>
-        <p class="h6">Подтвердить</p>
+        <p class="h6">Состав заказа</p>
       </li>
       <li class="bg-light" :class="{'bg-dark text-light active': step === 2}">
         <strong>STEP</strong>
         <h3><strong>02</strong></h3>
-        <p class="h6">Заполнить информацию о заказе</p>
+        <p class="h6">Информация о заказчике</p>
       </li>
       <li class="bg-light" :class="{'bg-dark text-light active': step === 3}">
         <strong>STEP</strong>
@@ -22,11 +22,11 @@
       <table class="table mb-4">
         <thead>
           <tr>
-            <th class="d-md-table-cell d-none text-center" width="20%">縮圖</th>
+            <th class="d-md-table-cell d-none text-center" width="20%">Фото</th>
             <th class="text-center">Название</th>
-            <th class="d-sm-table-cell d-none text-center" width="20%">數量</th>
-            <th class="text-center" width="15%">價格</th>
-            <th class="text-center" width="15%">刪除</th>
+            <th class="d-sm-table-cell d-none text-center" width="20%">Количество</th>
+            <th class="text-center" width="15%">Цена</th>
+            <th class="text-center" width="15%">Удалить</th>
           </tr>
         </thead>
         <tbody>
@@ -98,7 +98,7 @@
       <div class="mb-4 stepBtn">
         <router-link to="/productslist" class="btn btn-secondary">
           <i class="fas fa-arrow-left"></i>
-          Продолжить покупку
+          Вернуться в каталог
         </router-link>
         <a href="#" class="btn btn-danger d-inline-block" @click.prevent="step = 2">
           Введите информацию о заказе
@@ -165,21 +165,21 @@
             <label for="name">Имя получателя</label>
             <input type="text" name="name" id="name" class="form-control"
              :class="{'is-invalid': errors.has('name')}" v-validate="'required'"
-             placeholder="請輸入收件人姓名" v-model="form.user.name">
-            <span class="text-danger" v-if="errors.has('name')">Поле Имя не должно оставаться пустым</span>
+             placeholder="Пожалуйста, введите имя получателя" v-model="form.user.name">
+            <span class="text-danger" v-if="errors.has('name')">Поле - не должно оставаться пустым</span>
           </div>
           <div class="form-group">
             <label for="tel">Телефон получателя</label>
             <input type="tel" name="tel" id="tel" class="form-control"
              :class="{'is-invalid': errors.has('tel')}" v-validate="'required'"
-             placeholder="請輸入收寄人電話" v-model="form.user.tel">
+             placeholder="Пожалуйста, введите номер телефона получателя" v-model="form.user.tel">
             <span class="text-danger" v-if="errors.has('tel')">Поле телефона не должно быть пустым</span>
           </div>
           <div class="form-group">
             <label for="address">Адрес получателя</label>
             <input type="text" name="address" id="address" class="form-control"
              :class="{'is-invalid': errors.has('address')}" v-validate="'required'"
-             placeholder="請輸入收件人地址" v-model="form.user.address">
+             placeholder="Пожалуйста, введите адрес получателя" v-model="form.user.address">
             <span class="text-danger" v-if="errors.has('address')">Поле адреса не должно оставаться пустым</span>
           </div>
           <div class="form-group mb-4">
@@ -293,25 +293,9 @@ export default {
     removeCartItem(id) {
       this.$store.dispatch('cartModules/removeCartItem', id);
     },
-    addCouponCode() {
-      const vm = this;
-      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/coupon`;
-      const coupon = {
-        code: vm.couponCode,
-      };
-      vm.$http.post(url, { data: coupon }).then((response) => {
-        // console.log(response.data);
-        if (response.data.success) {
-          vm.$store.dispatch('cartModules/getCart');
-          vm.$store.dispatch('alertMessageModules/updateMessage', { message: response.data.message, status: 'success' });
-        } else {
-          vm.$store.dispatch('alertMessageModules/updateMessage', { message: response.data.message, status: 'danger' });
-        }
-      });
-    },
     createOrder() {
       const vm = this;
-      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order`;
+      const url = `${process.env.VUE_APP_APIPATH}/api/orders/create`;
       const order = vm.form;
       vm.$validator.validate().then((result) => {
         if (!result) {
@@ -327,14 +311,14 @@ export default {
     },
     getOrder() {
       const vm = this;
-      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order/${vm.orderId}`;
+      const url = `${process.env.VUE_APP_APIPATH}/api/orders/${vm.orderId}`;
       vm.$http.get(url).then((response) => {
         vm.order = response.data.order;
       });
     },
     payOrder() {
       const vm = this;
-      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/pay/${vm.orderId}`;
+      const url = `${process.env.VUE_APP_APIPATH}/api/pay/${vm.orderId}`;
       vm.$http.post(url).then((response) => {
         if (response.data.success) {
           vm.$store.dispatch('alertMessageModules/updateMessage', { message: response.data.message, status: 'success' });

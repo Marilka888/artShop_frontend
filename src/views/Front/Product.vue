@@ -6,7 +6,7 @@
           <router-link to="/">Домой</router-link>
         </li>
         <li class="breadcrumb-item">
-          <router-link to="/productslist">Список продуктов</router-link>
+          <router-link to="/productslist">Список услуг</router-link>
         </li>
         <li class="breadcrumb-item">
           <router-link :to="{path: '/productsList', query: {category: product.category}}"
@@ -245,12 +245,12 @@ export default {
   methods: {
     getProduct() {
       const vm = this;
-      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/product/${vm.productId}`;
+      const url = `${process.env.VUE_APP_APIPATH}/api/favours/${vm.productId}`;
       vm.$store.dispatch('updateLoading', true);
       vm.$http.get(url).then((response) => {
         if (response.data.success) {
           vm.product = response.data.product;
-          // 若已在 vm.favorites 中則 vm.isFavorite = true
+          // Если вы уже в vm.favorites то vm.isFavorite = true
           vm.favorites.forEach((item) => {
             if (vm.product.id === item.id) {
               vm.isFavorite = true;

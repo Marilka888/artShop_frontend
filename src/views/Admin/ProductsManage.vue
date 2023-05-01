@@ -191,11 +191,11 @@ export default {
       $('#productModal').modal('show');
     },
     updateProduct() {
-      let api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/product`;
+      let api = `${process.env.VUE_APP_APIPATH}/api/favours/update`;
       let httpMethod = 'post';
       const vm = this;
       if (!vm.isNew) {
-        api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/product/${vm.tempProduct.id}`;
+        api = `${process.env.VUE_APP_APIPATH}/api/favours/${vm.tempProduct.id}`;
         httpMethod = 'put';
       }
       vm.$http[httpMethod](api, { data: vm.tempProduct }).then((response) => {
@@ -214,7 +214,7 @@ export default {
     },
     delProduct() {
       const vm = this;
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/product/${vm.tempProduct.id}`;
+      const api = `${process.env.VUE_APP_APIPATH}/api/favours/delete/${vm.tempProduct.id}`;
       vm.$http.delete(api).then((response) => {
         if (response.data.success) {
           $('#delProductModal').modal('hide');
