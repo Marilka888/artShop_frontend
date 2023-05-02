@@ -11,9 +11,6 @@
         <li class="breadcrumb-item active">
           {{ select }}
         </li>
-        <li class="breadcrumb-item active" v-if="filterText">
-          Обыскивать {{ filterText }}
-        </li>
       </ol>
     </nav>
 
@@ -29,58 +26,50 @@
               {{ category.title }}
             </li>
           </ul>
-          <form class="input-group mb-3" @submit.prevent="search">
-            <input type="search" class="form-control" placeholder="search" v-model="searchText">
-            <div class="input-group-append">
-              <button class="input-group-text bg-light">
-                <i class="fas fa-search"></i>
-              </button>
-            </div>
-          </form>
         </div>
       </div>
 
       <div class="col-lg-10 col-md-9">
         <div class="mb-2 text-left text-muted" v-if="filterText">
-          we found {{ filterProducts.length }} result for "{{ filterText }}"
+          we found {{ filterFavours.length }} result for "{{ filterText }}"
         </div>
 
         <div class="card-columns">
-          <div class="card text-primary product-card"
-           v-for="product in filterProducts" :key="product.id">
-            <div :style="{background: `url(${product.imageUrl}) center center no-repeat`,
+          <div class="card text-primary favour-card"
+           v-for="favour in filterFavours" :key="favour.id">
+            <div :style="{background: `url(${favour.imageUrl}) center center no-repeat`,
             backgroundSize: 'cover', height:'200px'}">
             </div>
             <div class="favorite">
-              <a class="text-danger" v-if="product.is_favorite"
-               @click.prevent="removeFavorite(product, false)">
+              <a class="text-danger" v-if="favour.is_favorite"
+               @click.prevent="removeFavorite(favour, false)">
                 <i class="fas fa-heart fa-lg"></i>
               </a>
               <a class="text-danger" v-else
-               @click.prevent="addFavorite(product)">
+               @click.prevent="addFavorite(favour)">
                 <i class="far fa-heart fa-lg"></i>
               </a>
             </div>
             <div class="card-body py-2">
-              <h5 class="card-title mb-0">{{ product.title }}</h5>
+              <h5 class="card-title mb-0">{{ favour.title }}</h5>
               <div class="d-flex align-items-baseline">
                 <p class="card-text text-secondary mb-0"
-                  v-if="product.origin_price !== product.price">
-                  <del> {{ product.origin_price | currency }} </del>
+                  v-if="favour.origin_price !== favour.price">
+                  <del> {{ favour.origin_price | currency }} </del>
                 </p>
                 <p class="card-text ml-auto h5"
-                  :class="{'text-danger': product.origin_price !== product.price}">
-                  NT {{ product.price | currency }}
+                  :class="{'text-danger': favour.origin_price !== favour.price}">
+                  NT {{ favour.price | currency }}
                 </p>
               </div>
             </div>
-            <div class="product-more">
-              <router-link :to="`/productslist/${product.id}`">Узнать больше</router-link>
-              <a href="#" @click.prevent="addToCart(product.id)">
+            <div class="favour-more">
+              <router-link :to="`/favourslist/${favour.id}`">Узнать больше</router-link>
+              <a href="#" @click.prevent="addToCart(favour.id)">
                 Добавить в корзину
               </a>
             </div>
-            <div class="product-soldout" v-if="!product.is_enabled">
+            <div class="favour-soldout" v-if="!favour.is_enabled">
               <button class="btn btn-danger border" disabled>Sold Out</button>
             </div>
           </div>
@@ -97,7 +86,7 @@ import { mapGetters } from 'vuex';
 export default {
   data() {
     return {
-      select: 'Все услуги',
+      select: 'Все',
       filterText: '',
       searchText: '',
       categories: [
@@ -111,25 +100,25 @@ export default {
     };
   },
   computed: {
-    filterProducts() {
+    filterFavours() {
       const vm = this;
       if (vm.filterText) {
-        vm.select = 'Все услуги';
-        return vm.products.filter(item => item.title.indexOf(vm.filterText) !== -1);
+        vm.select = 'Все';
+        return vm.favours.filter(item => item.title.indexOf(vm.filterText) !== -1);
       }
-      if (vm.select !== 'Все услуги') {
-        return vm.products.filter(item => item.category === vm.select);
+      if (vm.select !== 'Все') {
+        return vm.favours.filter(item => item.category === vm.select);
       }
-      return vm.products;
+      return vm.favours;
     },
-    ...mapGetters('productsModules', ['products']),
+    ...mapGetters('favoursModules', ['favours']),
   },
   methods: {
-    addFavorite(product) {
-      this.$store.dispatch('favoriteModules/addToFavorite', product);
+    addFavorite(favour) {
+      this.$store.dispatch('favoriteModules/addToFavorite', favour);
     },
-    removeFavorite(productItem, delall) {
-      this.$store.dispatch('favoriteModules/removeFavorite', { favoriteItem: productItem, delall });
+    removeFavorite(favourItem, delall) {
+      this.$store.dispatch('favoriteModules/removeFavorite', { favoriteItem: favourItem, delall });
     },
     getParams() {
       if (this.$route.query.category) {
@@ -143,24 +132,19 @@ export default {
         vm.filterText = '';
       }
       if (this.$route.query.category) {
-        vm.$router.push('/productslist');
+        vm.$router.push('/favourslist');
       }
     },
-    getProducts() {
-      this.$store.dispatch('productsModules/getProducts', { isPagination: false });
+    getFavours() {
+      this.$store.dispatch('favoursModules/getFavours', { isPagination: false });
     },
-    addToCart(productId) {
-      this.$store.dispatch('cartModules/addToCart', { id: productId, qty: 1 });
-    },
-    search() {
-      const vm = this;
-      vm.filterText = vm.searchText;
-      vm.searchText = '';
+    addToCart(favourId) {
+      this.$store.dispatch('cartModules/addToCart', { id: favourId, qty: 1 });
     },
   },
   created() {
     this.getParams();
-    this.getProducts();
+    this.getFavours();
   },
 };
 </script>
@@ -184,7 +168,7 @@ export default {
   }
 }
 
-.product-more {
+.favour-more {
   display: flex;
   padding-top: 0.2rem;
   text-align: center;
@@ -200,7 +184,7 @@ export default {
     }
   }
 }
-.product-soldout {
+.favour-soldout {
   position: absolute;
   top: 0;
   bottom: 0;

@@ -1,9 +1,9 @@
 <template>
   <div class="mb-4">
     <swiper :options="swiperOption">
-      <swiper-slide v-for="item in newProducts" :key="item.id">
+      <swiper-slide v-for="item in newFavours" :key="item.id">
         <ul class="sider" :style='{backgroundImage: `url(${item.imageUrl})`}'
-          @click.prevent="productBtn(item.id)">
+          @click.prevent="favourBtn(item.id)">
           <li class="sider-tag">
             <div class="sider-triangle"></div>
             <span class="sider-title"> {{item.category}} </span>
@@ -44,18 +44,18 @@ export default {
     };
   },
   computed: {
-    newProducts() {
-      return this.products.filter((item) => item.is_enabled === 1).slice(0, 12);
+    newFavours() {
+      return this.favours.filter((item) => item.is_enabled === 1).slice(0, 12);
     },
-    ...mapGetters('productsModules', ['products']),
+    ...mapGetters('favoursModules', ['favours']),
   },
   methods: {
-    getProducts() {
-      this.$store.dispatch('productsModules/getProducts', { isPagination: false });
+    getFavours() {
+      this.$store.dispatch('favoursModules/getFavours', { isPagination: false });
     },
-    productBtn(productId) {
+    favourBtn(favourId) {
       const vm = this;
-      vm.$router.push({ path: `/productslist/${productId}` });
+      vm.$router.push({ path: `/favourslist/${favourId}` });
     },
   },
   components: {
@@ -63,7 +63,7 @@ export default {
     swiperSlide,
   },
   created() {
-    this.getProducts();
+    this.getFavours();
   },
 };
 </script>

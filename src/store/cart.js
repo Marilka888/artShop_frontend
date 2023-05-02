@@ -9,7 +9,7 @@ export default ({
   },
   actions: {
     getCart(context) {
-      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
+      const url = `${process.env.VUE_APP_APIPATH}/api/cart`;
       axios.get(url).then((response) => {
         context.commit('CART', response.data.data);
         context.commit('CART_LENGTH', response.data.data.carts.length);
@@ -18,7 +18,7 @@ export default ({
     addToCart(context, { id, qty }) {
       const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
       const cart = {
-        product_id: id,
+        favour_id: id,
         qty,
       };
       context.commit('LOADING', true, { root: true });

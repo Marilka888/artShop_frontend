@@ -9,12 +9,12 @@ export default ({
       const favoriteData = JSON.parse(localStorage.getItem('favoriteData')) || [];
       context.commit('FAVORITES', favoriteData);
       context.commit('FAVORITES_LENGTH', favoriteData.length);
-      context.dispatch('productsModules/getProducts', { isPagination: false }, { root: true });
+      context.dispatch('favoursModules/getFavours', { isPagination: false }, { root: true });
     },
-    addToFavorite(context, product) {
+    addToFavorite(context, favour) {
       const favoriteData = {
-        id: product.id,
-        title: product.title,
+        id: favour.id,
+        title: favour.title,
       };
       context.commit('PUSH_FAVORITE', favoriteData);
       localStorage.setItem('favoriteData', JSON.stringify(context.state.favorites));

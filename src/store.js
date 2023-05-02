@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import productsModules from './store/products';
+import favoursModules from './store/favours';
 import cartModules from './store/cart';
 import alertMessageModules from './store/alertMessage';
 import favoriteModules from './store/favorite';
@@ -31,11 +31,11 @@ export default new Vuex.Store({
     },
   },
   getters: {
-    isLoading: (state) => state.isLoading,
-    pagination: (state) => state.pagination,
+    isLoading: state => state.isLoading,
+    pagination: state => state.pagination,
   },
   modules: {
-    productsModules,
+    favoursModules,
     cartModules,
     alertMessageModules,
     favoriteModules,

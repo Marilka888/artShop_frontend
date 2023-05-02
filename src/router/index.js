@@ -16,14 +16,19 @@ export default new Router({
       component: () => import('@/views/Login.vue'),
     },
     {
+      path: '/register',
+      name: 'register',
+      component: () => import('@/views/Register.vue'),
+    },
+    {
       path: '/admin',
       // name: 'Dashboard',
       component: () => import('@/views/Dashboard.vue'),
       children: [
         {
-          path: 'productsmanage',
-          name: 'ProductsManage',
-          component: () => import('@/views/Admin/ProductsManage.vue'),
+          path: 'favoursmanage',
+          name: 'FavoursManage',
+          component: () => import('@/views/Admin/FavoursManage.vue'),
           meta: { requiresAuth: true },
         },
         {
@@ -45,14 +50,14 @@ export default new Router({
           component: () => import('@/views/Front/Home.vue'),
         },
         {
-          path: 'productslist',
-          name: 'ProductsList',
-          component: () => import('@/views/Front/ProductsList.vue'),
+          path: 'favourslist',
+          name: 'FavoursList',
+          component: () => import('@/views/Front/FavoursList.vue'),
         },
         {
-          path: 'productslist/:productId',
-          name: 'Product',
-          component: () => import('@/views/Front/Product.vue'),
+          path: 'favourslist/:favourId',
+          name: 'Favour',
+          component: () => import('@/views/Front/Favour.vue'),
         },
         {
           path: 'createorder',

@@ -16,8 +16,8 @@
             <router-link class="nav-link" to="/">Главная</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/productslist"
-             :class="{'active': $route.name === 'ProductsList' && 'router-link-active'}">
+            <router-link class="nav-link" to="/favourslist"
+             :class="{'active': $route.name === 'FavoursList' && 'router-link-active'}">
              Каталог
             </router-link>
           </li>
@@ -44,8 +44,8 @@
                         <i class="fas fa-trash-alt"></i>
                       </a>
                     </td>
-                    <td class="px-1">{{ cart.product.title }}</td>
-                    <td class="px-1">{{ cart.qty }} {{ cart.product.unit }}</td>
+                    <td class="px-1">{{ cart.favour.title }}</td>
+                    <td class="px-1">{{ cart.qty }} {{ cart.favour.unit }}</td>
                     <td class="text-right px-1">{{ cart.total | currency }}</td>
                   </tr>
                   <tr v-if="!carts.total">
@@ -79,7 +79,7 @@
                       </a>
                     </td>
                     <td class="py-2">
-                      <router-link :to="`/productslist/${favorite.id}`" class="d-block">
+                      <router-link :to="`/favourslist/${favorite.id}`" class="d-block">
                         {{ favorite.title }}
                       </router-link>
                     </td>

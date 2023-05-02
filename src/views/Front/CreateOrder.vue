@@ -33,13 +33,13 @@
           <tr v-for="cart in carts.carts" :key="cart.id">
             <td class="d-md-table-cell d-none text-center">
               <div class="thumbnail"
-               :style="{backgroundImage:`url(${cart.product.imageUrl})`}"></div>
+               :style="{backgroundImage:`url(${cart.favour.imageUrl})`}"></div>
             </td>
             <td>
-              {{ cart.product.title }}
+              {{ cart.favour.title }}
             </td>
             <td class="d-sm-table-cell d-none text-center">
-              {{ cart.qty }} / {{ cart.product.unit }}
+              {{ cart.qty }} / {{ cart.favour.unit }}
             </td>
             <td class="text-right">
               <div v-if="!cart.coupon">
@@ -96,7 +96,7 @@
         </tfoot>
       </table>
       <div class="mb-4 stepBtn">
-        <router-link to="/productslist" class="btn btn-secondary">
+        <router-link to="/favourslist" class="btn btn-secondary">
           <i class="fas fa-arrow-left"></i>
           Вернуться в каталог
         </router-link>
@@ -132,8 +132,8 @@
                 </thead>
                 <tbody>
                   <tr v-for="cart in carts.carts" :key="cart.id">
-                    <td>{{ cart.product.title }}</td>
-                    <td>{{ cart.qty }} / {{ cart.product.unit }}</td>
+                    <td>{{ cart.favour.title }}</td>
+                    <td>{{ cart.qty }} / {{ cart.favour.unit }}</td>
                     <td class="text-right">{{ cart.final_total | currency }}</td>
                   </tr>
                 </tbody>
@@ -213,9 +213,9 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="orderItem in order.products" :key="orderItem.id">
-              <td>{{ orderItem.product.title }}</td>
-              <td>{{ orderItem.qty }} / {{ orderItem.product.unit }}</td>
+            <tr v-for="orderItem in order.favours" :key="orderItem.id">
+              <td>{{ orderItem.favour.title }}</td>
+              <td>{{ orderItem.qty }} / {{ orderItem.favour.unit }}</td>
               <td class="text-right">{{ orderItem.total | currency }}</td>
             </tr>
           </tbody>

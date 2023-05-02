@@ -17,9 +17,9 @@
             <td class="d-sm-table-cell d-none" v-if="order.user">{{ order.user.email }}</td>
             <td class="d-lg-table-cell d-none">
               <ul class="list-unstyled">
-                <li v-for="(order_product, i) in order.products" :key="i">
-                  {{order_product.product.title}}:{{order_product.qty}}
-                   {{order_product.product.unit}}
+                <li v-for="(order_favour, i) in order.favours" :key="i">
+                  {{order_favour.favour.title}}:{{order_favour.qty}}
+                   {{order_favour.favour.unit}}
                 </li>
               </ul>
             </td>
@@ -52,14 +52,13 @@ export default {
     Pagination,
   },
   methods: {
-    getOrders(page = 1) {
+    getOrders() {
       const vm = this;
       const url = `${process.env.VUE_APP_APIPATH}/api/orders/admin/all`;
       vm.$store.dispatch('updateLoading', true);
       vm.$http.get(url).then((response) => {
         if (response.data.success) {
           vm.orders = response.data.orders;
-          vm.pagination = response.data.pagination;
         } else {
           vm.$store.dispatch('alertMessageModules/updateMessage', { message: response.data.message, status: 'danger' });
         }

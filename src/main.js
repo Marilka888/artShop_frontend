@@ -14,7 +14,7 @@ import './bus';
 import currencyFilter from './filters/currency';
 import dateFilter from './filters/date';
 
-Vue.config.productionTip = false;
+Vue.config.favourionTip = false;
 Vue.use(VueAxios, axios);
 Vue.use(Vuex);
 VeeValidate.Validator.localize('zh_TW', zhTWValidate);
@@ -37,7 +37,7 @@ new Vue({
 
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth) {
-    const api = `${process.env.VUE_APP_APIPATH}/api/user/check`;
+    const api = `${process.env.VUE_APP_APIPATH}/api/auth/authenticate`;
     axios.post(api).then((response) => {
       if (response.data.success) {
         next();

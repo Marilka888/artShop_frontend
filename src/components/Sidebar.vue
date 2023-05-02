@@ -10,7 +10,7 @@
       </h6>
       <ul class="nav flex-column mb-2">
         <li class="nav-item">
-          <router-link class="nav-link" to="/admin/productsmanage">
+          <router-link class="nav-link" to="/admin/favoursmanage">
             <i class="fas fa-shopping-cart"></i> Список услуг
           </router-link>
         </li>

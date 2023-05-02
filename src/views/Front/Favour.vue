@@ -6,36 +6,36 @@
           <router-link to="/">Домой</router-link>
         </li>
         <li class="breadcrumb-item">
-          <router-link to="/productslist">Список услуг</router-link>
+          <router-link to="/favourslist">Список услуг</router-link>
         </li>
         <li class="breadcrumb-item">
-          <router-link :to="{path: '/productsList', query: {category: product.category}}"
-           class="text-primary">{{ product.category }}</router-link>
+          <router-link :to="{path: '/favoursList', query: {category: favour.category}}"
+           class="text-primary">{{ favour.category }}</router-link>
         </li>
         <li class="breadcrumb-item active">
-          {{ product.title }}
+          {{ favour.title }}
         </li>
       </ol>
     </nav>
     <div class="row mb-3">
       <div class="col-md-4 mb-3">
         <div class="sticky-top clearfix" style="top: 10px">
-          <h1 class="h3"> {{ product.title }} </h1>
-          <div class="d-flex align-items-baseline" v-if="product.origin_price !== product.price">
-            <del class="text-muted">售價：{{ product.origin_price | currency }}</del>
+          <h1 class="h3"> {{ favour.title }} </h1>
+          <div class="d-flex align-items-baseline" v-if="favour.origin_price !== favour.price">
+            <del class="text-muted">售價：{{ favour.origin_price | currency }}</del>
             <div class="ml-auto mb-0 h5 text-danger">
               <small>特價：</small>
-              <strong>{{ product.price | currency }}</strong>
+              <strong>{{ favour.price | currency }}</strong>
             </div>
           </div>
-          <div class="d-flex align-items-baseline" v-if="product.origin_price == product.price">
+          <div class="d-flex align-items-baseline" v-if="favour.origin_price == favour.price">
             <div class="ml-auto mb-0 h5">
               <small>售價：</small>
-              <strong>{{ product.price | currency }}</strong>
+              <strong>{{ favour.price | currency }}</strong>
             </div>
           </div>
           <hr>
-          <ul class="product-summary">
+          <ul class="favour-summary">
             <li>
               <button type="button" class="btn btn-link p-0"
                data-toggle="modal" data-target="#sizeModalCenter">
@@ -50,11 +50,11 @@
             </li>
             <li>
               <a href="#" class="btn btn-link p-0" :class="{'d-none': isFavorite}"
-               @click.prevent="addFavorite(product)">
+               @click.prevent="addFavorite(favour)">
                 <i class="fas fa-heart"></i> Добавить в избранное
               </a>
               <a href="#" class="btn btn-link p-0" :class="{'d-none': !isFavorite}"
-               @click.prevent="removeFavorite(product, false)">
+               @click.prevent="removeFavorite(favour, false)">
                 <i class="fas fa-heart-broken"></i> Удалить из избанного
               </a>
             </li>
@@ -65,7 +65,7 @@
             <select class="form-control" v-model="qty">
               <option value="0" disabled selected>Пожалуйста, выберите количество</option>
               <option :value="num" v-for="num in 15" :key="num">
-                {{ num }} {{ product.unit }}
+                {{ num }} {{ favour.unit }}
               </option>
             </select>
             <button class="btn btn-primary" @click.prevent="addToCart(qty)">
@@ -75,16 +75,16 @@
           </div>
         </div>
       </div>
-      <div class="col-md-8 product-content">
-        <img class="img-fluid" :src="product.imageUrl">
+      <div class="col-md-8 favour-content">
+        <img class="img-fluid" :src="favour.imageUrl">
         <h3>Добавить</h3>
-        <p>{{ product.description }}</p>
-        <img class="img-fluid" src="../../assets/image/product-1.jpg">
+        <p>{{ favour.description }}</p>
+        <img class="img-fluid" src="../../assets/image/favour-1.jpg">
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit.
           Pariatur doloribus, laudantium hic perferendis necessitatibus dolorem ipsam
         </p>
-        <img class="img-fluid" src="../../assets/image/product-2.jpg">
+        <img class="img-fluid" src="../../assets/image/favour-2.jpg">
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit.
           Quibusdam rem sed vitae facilis modi maxime veniam similique eveniet.
@@ -233,8 +233,8 @@ import { mapGetters } from 'vuex';
 export default {
   data() {
     return {
-      productId: '',
-      product: [],
+      favourId: '',
+      favour: [],
       qty: 0,
       isFavorite: false,
     };
@@ -243,16 +243,16 @@ export default {
     ...mapGetters('favoriteModules', ['favorites']),
   },
   methods: {
-    getProduct() {
+    getFavour() {
       const vm = this;
-      const url = `${process.env.VUE_APP_APIPATH}/api/favours/${vm.productId}`;
+      const url = `${process.env.VUE_APP_APIPATH}/api/favours/${vm.favourId}`;
       vm.$store.dispatch('updateLoading', true);
       vm.$http.get(url).then((response) => {
         if (response.data.success) {
-          vm.product = response.data.product;
+          vm.favour = response.data.favour;
           // Если вы уже в vm.favorites то vm.isFavorite = true
           vm.favorites.forEach((item) => {
-            if (vm.product.id === item.id) {
+            if (vm.favour.id === item.id) {
               vm.isFavorite = true;
             }
           });
@@ -266,27 +266,27 @@ export default {
       if (qty === 0) {
         this.$store.dispatch('alertMessageModules/updateMessage', { message: 'Пожалуйста, выберите количество', status: 'danger' });
       } else {
-        this.$store.dispatch('cartModules/addToCart', { id: this.productId, qty });
+        this.$store.dispatch('cartModules/addToCart', { id: this.favourId, qty });
       }
     },
-    addFavorite(product) {
-      this.$store.dispatch('favoriteModules/addToFavorite', product);
+    addFavorite(favour) {
+      this.$store.dispatch('favoriteModules/addToFavorite', favour);
       this.isFavorite = true;
     },
-    removeFavorite(productItem, delall) {
-      this.$store.dispatch('favoriteModules/removeFavorite', { favoriteItem: productItem, delall });
+    removeFavorite(favourItem, delall) {
+      this.$store.dispatch('favoriteModules/removeFavorite', { favoriteItem: favourItem, delall });
       this.isFavorite = false;
     },
   },
   watch: {
     $route() {
-      this.productId = this.$route.params.productId;
-      this.getProduct();
+      this.favourId = this.$route.params.favourId;
+      this.getFavour();
     },
   },
   created() {
-    this.productId = this.$route.params.productId;
-    this.getProduct();
+    this.favourId = this.$route.params.favourId;
+    this.getFavour();
   },
 };
 </script>
@@ -294,7 +294,7 @@ export default {
 <style lang="scss" scoped>
 @import '../../assets/_custom.scss';
 
-.product-summary {
+.favour-summary {
   display: flex;
   justify-content: space-around;
   margin-bottom: 1rem;
@@ -341,7 +341,7 @@ export default {
     }
   }
 }
-.product-content {
+.favour-content {
   text-align: center;
   img, p {
     margin-bottom: 1.5rem;

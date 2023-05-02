@@ -9,7 +9,6 @@
         <i :class="category.icon"></i>
         <ul class="ml-3">
           <li>{{category.name}}</li>
-          <li>{{category.title}}</li>
         </ul>
       </li>
     </ul>
@@ -26,7 +25,7 @@
           <div class="cart-border">
             <h3 class="mb-3">Открой</h3>
             <p>Мир души и любви</p>
-            <router-link to="/productslist" class="btn btn-primary"> Каталог </router-link>
+            <router-link to="/favourslist" class="btn btn-primary"> Каталог </router-link>
           </div>
         </div>
       </div>
@@ -35,7 +34,7 @@
           <div class="cart-border">
             <h3 class="mb-3">Новые услуги</h3>
             <p>Деревянные значки</p>
-            <router-link to="/productslist" class="btn btn-primary"> Каталог </router-link>
+            <router-link to="/favourslist" class="btn btn-primary"> Каталог </router-link>
           </div>
         </div>
         <div class="mb-4 cart-img cart-img-2">
@@ -55,19 +54,19 @@ export default {
   data() {
     return {
       categories: [
-        { name: 'Все', title: 'товары', icon: 'fas fa-gift fa-2x' },
-        { name: 'Одежда', title: 'с росписью', icon: 'fas fa-tshirt fa-2x' },
-        { name: 'Носки', title: 'с росписью', icon: 'fas fa-socks fa-2x' },
-        { name: 'Обувь', title: 'с росписью', icon: 'fas fa-shoe-prints fa-2x' },
-        { name: 'Аксессуары', title: 'ручной работы', icon: 'fas fa-democrat fa-2x' },
-        { name: 'Другое', title: 'ручной работы', icon: 'fas fa-shopping-bag fa-2x' },
+        { name: 'Все', title: 'Все', icon: 'fas fa-gift fa-2x' },
+        { name: 'Одежда', title: 'Одежда', icon: 'fas fa-tshirt fa-2x' },
+        { name: 'Носки', title: 'Носки', icon: 'fas fa-socks fa-2x' },
+        { name: 'Обувь', title: 'Обувь', icon: 'fas fa-shoe-prints fa-2x' },
+        { name: 'Аксессуары', title: 'Аксессуары', icon: 'fas fa-democrat fa-2x' },
+        { name: 'Другое', title: 'Другое', icon: 'fas fa-shopping-bag fa-2x' },
       ],
     };
   },
   methods: {
     categoryBtn(categoryTitle) {
       const vm = this;
-      vm.$router.push({ path: '/productslist', query: { category: categoryTitle } });
+      vm.$router.push({ path: '/favourslist', query: { category: categoryTitle } });
     },
   },
   components: {
