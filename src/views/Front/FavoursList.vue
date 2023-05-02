@@ -3,13 +3,16 @@
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb bg-light">
         <li class="breadcrumb-item">
-          <router-link to="/">Домой</router-link>
+          <router-link to="/">Главная</router-link>
         </li>
         <li class="breadcrumb-item active">
           Список услуг
         </li>
         <li class="breadcrumb-item active">
           {{ select }}
+        </li>
+        <li class="breadcrumb-item active" v-if="filterText">
+          搜尋 {{ filterText }}
         </li>
       </ol>
     </nav>
@@ -19,13 +22,21 @@
         <div class="sticky-top">
           <ul class="list-group mb-3 category">
             <li class="list-group-item list-group-item-action h6"
-            v-for="(category, index) in categories" :key="index"
-            :class="{'active': select == category.title}"
-              @click="getCategory(category.title)">
+                v-for="(category, index) in categories" :key="index"
+                :class="{'active': select == category.title}"
+                @click="getCategory(category.title)">
               <i :class="category.icon"></i>
               {{ category.title }}
             </li>
           </ul>
+          <form class="input-group mb-3" @submit.prevent="search">
+            <input type="search" class="form-control" placeholder="search" v-model="searchText">
+            <div class="input-group-append">
+              <button class="input-group-text bg-light">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </form>
         </div>
       </div>
 
@@ -59,7 +70,7 @@
                 </p>
                 <p class="card-text ml-auto h5"
                   :class="{'text-danger': favour.origin_price !== favour.price}">
-                  NT {{ favour.price | currency }}
+                   {{ favour.price | currency }}
                 </p>
               </div>
             </div>
@@ -140,6 +151,11 @@ export default {
     },
     addToCart(favourId) {
       this.$store.dispatch('cartModules/addToCart', { id: favourId, qty: 1 });
+    },
+    search() {
+      const vm = this;
+      vm.filterText = vm.searchText;
+      vm.searchText = '';
     },
   },
   created() {

@@ -19,7 +19,7 @@ export default ({
       context.commit('PUSH_FAVORITE', favoriteData);
       localStorage.setItem('favoriteData', JSON.stringify(context.state.favorites));
       context.dispatch('getFavorite');
-      context.dispatch('alertMessageModules/updateMessage', { message: 'Добавить к любимым', status: 'success' }, { root: true });
+      context.dispatch('alertMessageModules/updateMessage', { message: 'Добавлено в избранное', status: 'success' }, { root: true });
     },
     removeFavorite(context, { favoriteItem, delall }) {
       if (delall) {
@@ -29,7 +29,7 @@ export default ({
         localStorage.setItem('favoriteData', JSON.stringify(context.state.favorites));
       }
       context.dispatch('getFavorite');
-      context.dispatch('alertMessageModules/updateMessage', { message: 'Удалить из любимых', status: 'warning' }, { root: true });
+      context.dispatch('alertMessageModules/updateMessage', { message: 'Удалено из избранного', status: 'warning' }, { root: true });
     },
   },
   mutations: {

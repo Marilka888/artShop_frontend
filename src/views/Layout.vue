@@ -5,8 +5,8 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-transparent px-0">
       <router-link class="navbar-brand logo" to="/">ART Shop</router-link>
       <button class="navbar-toggler" type="button" data-toggle="collapse"
-       data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-       aria-expanded="false" aria-label="Toggle navigation">
+              data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+              aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
@@ -17,8 +17,8 @@
           </li>
           <li class="nav-item">
             <router-link class="nav-link" to="/favourslist"
-             :class="{'active': $route.name === 'FavoursList' && 'router-link-active'}">
-             Каталог
+                         :class="{'active': $route.name === 'FavoursList' && 'router-link-active'}">
+              Каталог
             </router-link>
           </li>
           <li class="nav-item ml-lg-auto pt-1">
@@ -38,23 +38,23 @@
               <h5 class="text-center">Корзина</h5>
               <table class="table mb-2" style="min-width:270px">
                 <tbody>
-                  <tr v-for="cart in carts.carts" :key="cart.id">
-                    <td class="px-1">
-                      <a href="#" class="text-danger" @click.prevent="removeCartItem(cart.id)">
-                        <i class="fas fa-trash-alt"></i>
-                      </a>
-                    </td>
-                    <td class="px-1">{{ cart.favour.title }}</td>
-                    <td class="px-1">{{ cart.qty }} {{ cart.favour.unit }}</td>
-                    <td class="text-right px-1">{{ cart.total | currency }}</td>
-                  </tr>
-                  <tr v-if="!carts.total">
-                    <td class="text-center">Корзина пуста</td>
-                  </tr>
+                <tr v-for="cart in carts.carts" :key="cart.id">
+                  <td class="px-1">
+                    <a href="#" class="text-danger" @click.prevent="removeCartItem(cart.id)">
+                      <i class="fas fa-trash-alt"></i>
+                    </a>
+                  </td>
+                  <td class="px-1">{{ cart.favour.title }}</td>
+                  <td class="px-1">{{ cart.qty }} {{ cart.favour.unit }}</td>
+                  <td class="text-right px-1">{{ cart.total | currency }}</td>
+                </tr>
+                <tr v-if="!carts.total">
+                  <td class="text-center">Корзина пуста</td>
+                </tr>
                 </tbody>
               </table>
               <router-link to="/createorder" class="btn btn-primary d-block mb-2"
-              v-if="carts.total">
+                           v-if="carts.total">
                 <i class="fas fa-cart-arrow-down"></i> Заказать
               </router-link>
             </div>
@@ -67,31 +67,31 @@
           </button>
           <div class="dropdown-menu dropdown-menu-right">
             <div class="pt-2 px-3">
-              <h5 class="text-center">Любимые</h5>
+              <h5 class="text-center">Избранное</h5>
               <table class="table mb-2" style="min-width:200px">
                 <tbody>
-                  <tr class="favorite-list"
-                  v-for="favorite in favorites" :key="favorite.id">
-                    <td class="py-2" width="30">
-                      <a href="#" class="text-danger favorite-list-delbtn"
-                      @click.prevent="removeFavorite(favorite, false)">
-                        <i class="fas fa-times"></i>
-                      </a>
-                    </td>
-                    <td class="py-2">
-                      <router-link :to="`/favourslist/${favorite.id}`" class="d-block">
-                        {{ favorite.title }}
-                      </router-link>
-                    </td>
-                  </tr>
-                  <tr :class="{'d-none': favorites.length}">
-                    <td class="text-center">Список любимых пуст</td>
-                  </tr>
+                <tr class="favorite-list"
+                    v-for="favorite in favorites" :key="favorite.id">
+                  <td class="py-2" width="30">
+                    <a href="#" class="text-danger favorite-list-delbtn"
+                       @click.prevent="removeFavorite(favorite, false)">
+                      <i class="fas fa-times"></i>
+                    </a>
+                  </td>
+                  <td class="py-2">
+                    <router-link :to="`/favourslist/${favorite.id}`" class="d-block">
+                      {{ favorite.title }}
+                    </router-link>
+                  </td>
+                </tr>
+                <tr :class="{'d-none': favorites.length}">
+                  <td class="text-center">Список любимых пуст</td>
+                </tr>
                 </tbody>
               </table>
               <button class="btn btn-outline-danger btn-block"
-               :class="{'d-none': !favorites.length}"
-               data-toggle="modal" data-target="#delFavoriteModal">
+                      :class="{'d-none': !favorites.length}"
+                      data-toggle="modal" data-target="#delFavoriteModal">
                 Удалить все
               </button>
             </div>
@@ -132,13 +132,15 @@
           <h5 class="footer-title">Подписывайтесь</h5>
           <ul>
             <li>
-              <a href="https://memchik.ru/show/cfa872bd512c65333da413ac5d408d7f02b19df7" target="_ blank" class="text-primary">
+              <a href="https://memchik.ru/show/cfa872bd512c65333da413ac5d408d7f02b19df7"
+                 target="_ blank" class="text-primary">
                 <span class="fa-stack fa-lg">
                   <i class="fas fa-circle fa-stack-2x"></i>
                   <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
                 </span>
               </a>
-              <a href="https://memchik.ru/show/27e6ff4e2eb9e5011fed64d06be4c8c7adae0f78" target="_ blank" class="text-primary">
+              <a href="https://memchik.ru/show/27e6ff4e2eb9e5011fed64d06be4c8c7adae0f78"
+                 target="_ blank" class="text-primary">
                 <span class="fa-stack fa-lg">
                   <i class="fas fa-circle fa-stack-2x"></i>
                   <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
@@ -146,13 +148,15 @@
               </a>
             </li>
             <li>
-              <a href="https://memchik.ru/show/4dc6f1a3de39e74fbac12126f1dc9da516f73fe1" target="_ blank" class="text-primary">
+              <a href="https://memchik.ru/show/4dc6f1a3de39e74fbac12126f1dc9da516f73fe1"
+                 target="_ blank" class="text-primary">
                 <span class="fa-stack fa-lg">
                   <i class="fas fa-circle fa-stack-2x"></i>
                   <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
                 </span>
               </a>
-              <a href="https://memchik.ru/show/5dad2d576eb375bea733b562aeb8df672553bff8" target="_ blank" class="text-primary">
+              <a href="https://memchik.ru/show/5dad2d576eb375bea733b562aeb8df672553bff8"
+                 target="_ blank" class="text-primary">
                 <span class="fa-stack fa-lg">
                   <i class="fas fa-circle fa-stack-2x"></i>
                   <i class="fab fa-line fa-stack-1x fa-inverse"></i>
@@ -170,22 +174,24 @@
 
     <!-- delFavoriteModal -->
     <div class="modal fade" id="delFavoriteModal" tabindex="-1" role="dialog"
-     aria-labelledby="delFavoriteModalLabel" aria-hidden="true">
+         aria-labelledby="delFavoriteModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header bg-danger text-light">
-            <h5 class="modal-title" id="delFavoriteModalLabel">Удалить все мои любимые</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <h5 class="modal-title" id="delFavoriteModalLabel">Очистить</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            Да Нет<strong class="text-danger">Удалить все мои любимые</strong> (Невозможно)
+            Удалить все избранные?
+            <strong class="text-danger">(отменить будет невозможно)</strong>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Удаление</button>
+            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Отмена
+            </button>
             <button type="button" class="btn btn-outline-danger" data-dismiss="modal"
-             @click.prevent="removeFavorite('', true)">
+                    @click.prevent="removeFavorite('', true)">
               Подтвердить удаление
             </button>
           </div>
@@ -202,8 +208,7 @@ import Alert from '@/components/AlertMessage.vue';
 
 export default {
   data() {
-    return {
-    };
+    return {};
   },
   computed: {
     ...mapGetters(['isLoading']),
@@ -216,7 +221,10 @@ export default {
       this.$store.dispatch('cartModules/removeCartItem', id);
     },
     removeFavorite(favorite, delall) {
-      this.$store.dispatch('favoriteModules/removeFavorite', { favoriteItem: favorite, delall });
+      this.$store.dispatch('favoriteModules/removeFavorite', {
+        favoriteItem: favorite,
+        delall
+      });
     },
     ...mapActions('cartModules', ['getCart', 'showCart']),
     ...mapActions('favoriteModules', ['getFavorite']),
@@ -241,6 +249,7 @@ export default {
   font-size: 1.25rem;
   font-weight: bold;
 }
+
 .dropdown-menu {
   z-index: 9999;
 }
@@ -256,6 +265,7 @@ export default {
   background-color: transparent;
   text-align: right;
   font-size: inherit;
+
   .badge {
     position: absolute;
     top: auto;
@@ -269,6 +279,7 @@ export default {
     background-color: $muted-color;
     text-decoration: underline;
   }
+
   .favorite-list-delbtn:hover, .favorite-list-delbtn:active {
     i {
       font-size: 1.25rem;
@@ -281,16 +292,19 @@ export default {
   margin: 0;
   padding: 2rem 2rem 0;
   line-height: 1.5rem;
+
   > li {
     flex: 1 1 0;
     margin-bottom: 2rem;
     text-align: center;
   }
 }
+
 .footer-title {
   margin-bottom: 1.25rem;
   font-weight: bold;
 }
+
 .copyright {
   padding: 1rem 0;
   border-top: 1px solid #ccc;
