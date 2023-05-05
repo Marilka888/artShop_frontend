@@ -56,17 +56,10 @@
           </ul>
           <hr>
 
-          <div class="input-group addcart">
-            <select class="form-control" v-model="qty">
-              <option value="0" disabled selected>Количество</option>
-              <option :value="num" v-for="num in 15" :key="num">
-                {{ num }} {{ favour.unit }}
-              </option>
-            </select>
-            <button class="btn btn-primary" @click.prevent="addToCart(qty)">
-              <i class="fas fa-plus"></i>
-              Добавить в корзину
-            </button>
+          <div class="input-group order">
+            <router-link :to="`/createorder/${favour.id}`" class="btn btn-primary d-block mb-2">
+              <i class="fas fa-cart-arrow-down"></i> Заказать
+            </router-link>
           </div>
         </div>
       </div>
@@ -151,7 +144,6 @@ export default {
     return {
       favourId: '',
       favour: [],
-      qty: 0,
       isFavorite: false,
     };
   },
@@ -167,7 +159,6 @@ export default {
         .then((response) => {
           if (response.data.success) {
             vm.favour = response.data.favour;
-            // Если вы уже в vm.favorites то vm.isFavorite = true
             vm.favorites.forEach((item) => {
               if (vm.favour.id === item.id) {
                 vm.isFavorite = true;
@@ -175,25 +166,12 @@ export default {
             });
           } else {
             vm.$store.dispatch('alertMessageModules/updateMessage', {
-              message: 'Не удалось найти этот пункт',
-              status: 'danger'
+              message: 'Не удалось найти данную услугу',
+              status: 'danger',
             });
           }
           vm.$store.dispatch('updateLoading', false);
         });
-    },
-    addToCart(qty) {
-      if (qty === 0) {
-        this.$store.dispatch('alertMessageModules/updateMessage', {
-          message: 'Пожалуйста, выберите количество',
-          status: 'danger'
-        });
-      } else {
-        this.$store.dispatch('cartModules/addToCart', {
-          id: this.favourId,
-          qty
-        });
-      }
     },
     addFavorite(favour) {
       this.$store.dispatch('favoriteModules/addToFavorite', favour);
@@ -202,13 +180,12 @@ export default {
     removeFavorite(favourItem, delall) {
       this.$store.dispatch('favoriteModules/removeFavorite', {
         favoriteItem: favourItem,
-        delall
+        delall,
       });
       this.isFavorite = false;
     },
   },
   watch: {
-    // 監聽 Layout.vue 我的最愛選單 當路由改變，頁面重新渲染
     $route() {
       this.favourId = this.$route.params.favourId;
       this.getFavour();
@@ -243,7 +220,7 @@ export default {
   }
 }
 
-.addcart {
+.order {
   display: flex;
   margin-bottom: 0.5rem;
 

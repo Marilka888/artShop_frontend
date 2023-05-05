@@ -28,38 +28,6 @@
           </li>
         </ul>
 
-        <div class="btn-group cart" :class="{'show': isCartShow}">
-          <button type="button" class="btn cart-btn" data-toggle="dropdown">
-            <i class="fas fa-shopping-cart fa-lg"></i>
-            <span class="badge badge-pill badge-danger">{{ cartsLength }}</span>
-          </button>
-          <div class="dropdown-menu dropdown-menu-right" :class="{'show': isCartShow}">
-            <div class="p-2 px-sm-3">
-              <h5 class="text-center">Корзина</h5>
-              <table class="table mb-2" style="min-width:270px">
-                <tbody>
-                <tr v-for="cart in carts.carts" :key="cart.id">
-                  <td class="px-1">
-                    <a href="#" class="text-danger" @click.prevent="removeCartItem(cart.id)">
-                      <i class="fas fa-trash-alt"></i>
-                    </a>
-                  </td>
-                  <td class="px-1">{{ cart.favour.title }}</td>
-                  <td class="px-1">{{ cart.qty }} {{ cart.favour.unit }}</td>
-                  <td class="text-right px-1">{{ cart.total | currency }}</td>
-                </tr>
-                <tr v-if="!carts.total">
-                  <td class="text-center">Корзина пуста</td>
-                </tr>
-                </tbody>
-              </table>
-              <router-link to="/createorder" class="btn btn-primary d-block mb-2"
-                           v-if="carts.total">
-                <i class="fas fa-cart-arrow-down"></i> Заказать
-              </router-link>
-            </div>
-          </div>
-        </div>
         <div class="btn-group favorite">
           <button type="button" class="btn favorite-btn" data-toggle="dropdown">
             <i class="fas fa-heart fa-lg"></i>
@@ -213,27 +181,24 @@ export default {
   computed: {
     ...mapGetters(['isLoading']),
     ...mapGetters('alertMessageModules', ['messages']),
-    ...mapGetters('cartModules', ['carts', 'cartsLength', 'isCartShow']),
+    ...mapGetters('ordersModules', ['orders']),
     ...mapGetters('favoriteModules', ['favorites', 'favoritesLength']),
   },
   methods: {
-    removeCartItem(id) {
-      this.$store.dispatch('cartModules/removeCartItem', id);
-    },
     removeFavorite(favorite, delall) {
       this.$store.dispatch('favoriteModules/removeFavorite', {
         favoriteItem: favorite,
-        delall
+        delall,
       });
     },
-    ...mapActions('cartModules', ['getCart', 'showCart']),
+    ...mapActions('ordersModules', ['getOrder']),
     ...mapActions('favoriteModules', ['getFavorite']),
   },
   components: {
     Alert,
   },
   created() {
-    this.$store.dispatch('cartModules/getCart');
+    this.$store.dispatch('ordersModules/getOrder');
     this.$store.dispatch('favoriteModules/getFavorite');
   },
 };

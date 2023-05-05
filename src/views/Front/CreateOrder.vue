@@ -4,12 +4,12 @@
       <li class="bg-light" :class="{'bg-dark text-light active': step === 1}">
         <strong>STEP</strong>
         <h3><strong>01</strong></h3>
-        <p class="h6">Состав заказа</p>
+        <p class="h6">Заказ</p>
       </li>
       <li class="bg-light" :class="{'bg-dark text-light active': step === 2}">
         <strong>STEP</strong>
         <h3><strong>02</strong></h3>
-        <p class="h6">Информация о заказчике</p>
+        <p class="h6">Дополнительно о заказе</p>
       </li>
       <li class="bg-light" :class="{'bg-dark text-light active': step === 3}">
         <strong>STEP</strong>
@@ -21,78 +21,44 @@
     <div class="table-responsive" v-if="step === 1">
       <table class="table mb-4">
         <thead>
-          <tr>
-            <th class="d-md-table-cell d-none text-center" width="20%">Фото</th>
-            <th class="text-center">Название</th>
-            <th class="d-sm-table-cell d-none text-center" width="20%">Количество</th>
-            <th class="text-center" width="15%">Цена</th>
-            <th class="text-center" width="15%">Удалить</th>
-          </tr>
+        <tr>
+          <th class="d-md-table-cell d-none text-center" width="20%">Фото</th>
+          <th class="text-center">Название</th>
+          <th class="text-center" width="15%">Цена</th>
+          <th class="text-center" width="15%">Количество</th>
+        </tr>
         </thead>
         <tbody>
-          <tr v-for="cart in carts.carts" :key="cart.id">
-            <td class="d-md-table-cell d-none text-center">
-              <div class="thumbnail"
-               :style="{backgroundImage:`url(${cart.favour.imageUrl})`}"></div>
-            </td>
-            <td>
-              {{ cart.favour.title }}
-            </td>
-            <td class="d-sm-table-cell d-none text-center">
-              {{ cart.qty }} / {{ cart.favour.unit }}
-            </td>
-            <td class="text-right">
-              <div v-if="!cart.coupon">
-                {{ cart.total | currency }}
-              </div>
-              <div v-else>
-                <del>{{ cart.total | currency }}</del>
-                <div class="text-success mt-2">
-                  {{ cart.final_total | currency }}
-                </div>
-              </div>
-            </td>
-            <td class="text-center">
-              <a href="#" class="text-danger" @click.prevent="removeCartItem(cart.id)">
-                <i class="fas fa-trash-alt"></i>
-              </a>
-            </td>
-          </tr>
+        <td class="d-md-table-cell d-none text-center">
+          <div class="thumbnail"
+               :style="{backgroundImage:`url(${favour.imageUrl})`}"></div>
+        </td>
+        <td class="d-md-table-cell d-none text-center">
+          {{ favour.title }}
+        </td>
+        <td class="d-md-table-cell d-none text-center">
+          {{ favour.price | currency }}
+        </td>
+        <td class="d-md-table-cell d-none text-center">
+          <select class="form-control form-control-sm" v-model="qty">
+            <option value="0" disabled selected>Количество</option>
+            <option :value="num" v-for="num in 15" :key="num">
+              {{ num }} {{ favour.unit }}
+            </option>
+          </select>
+        </td>
         </tbody>
         <tfoot class="bg-light table-borderless border-top">
-          <tr>
-            <td class="d-md-table-cell d-none"></td>
-            <td class="d-sm-table-cell d-none"></td>
-            <td class="text-right">
-               Город {{ cartsLength }}
-            </td>
-            <td class="text-right">
-              Стоимость заказа
-            </td>
-            <td class="text-right">
-              $0
-            </td>
-          </tr>
-          <tr>
-            <td class="d-md-table-cell d-none"></td>
-            <td class="d-sm-table-cell d-none"></td>
-            <td colspan="2" class="text-right">
-              Сумма
-            </td>
-            <td class="text-right">
-              {{ carts.total | currency }}
-            </td>
-          </tr>
-          <tr class="text-success" v-if="carts.total !== carts.final_total">
-            <td class="d-md-table-cell d-none"></td>
-            <td class="d-sm-table-cell d-none"></td>
-            <td colspan="2" class="text-right">
-              Окончательная цена
-            </td>
-            <td class="text-right">
-              {{ carts.final_total | currency }}
-            </td>
-          </tr>
+        <tr>
+          <td class="d-md-table-cell d-none"></td>
+          <td class="d-sm-table-cell d-none"></td>
+          <td class="text-right">
+            Итого без доп.услуг:
+          </td>
+          <td class="text-right">
+            {{ favour.price * qty | currency }}
+          </td>
+        </tr>
         </tfoot>
       </table>
       <div class="mb-4 stepBtn">
@@ -100,7 +66,7 @@
           <i class="fas fa-arrow-left"></i>
           Вернуться в каталог
         </router-link>
-        <a href="#" class="btn btn-danger d-inline-block" @click.prevent="step = 2">
+        <a href="#" class="btn btn-danger d-inline-block" @click.prevent="confirmOrder(qty)">
           Введите информацию о заказе
           <i class="fas fa-arrow-right"></i>
         </a>
@@ -114,91 +80,109 @@
           <div class="card-header" id="headingOne">
             <h5 class="mb-0">
               <button class="btn btn-link" data-toggle="collapse"
-               data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                Список корзины <i class="fas fa-caret-down"></i>
+                      data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                Состав заказа <i class="fas fa-caret-down"></i>
               </button>
             </h5>
           </div>
           <div id="collapseOne" class="collapse"
-           aria-labelledby="headingOne" data-parent="#accordion">
+               aria-labelledby="headingOne" data-parent="#accordion">
             <div class="card-body">
               <table class="table mb-0">
                 <thead>
-                  <tr>
-                    <td>Продукция</td>
-                    <td width="25%">Количество</td>
-                    <td width="15%">Цена</td>
-                  </tr>
+                <tr>
+                  <td>Услуга</td>
+                  <td width="25%">Описание</td>
+                  <td class="text-right">Цена</td>
+                </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="cart in carts.carts" :key="cart.id">
-                    <td>{{ cart.favour.title }}</td>
-                    <td>{{ cart.qty }} / {{ cart.favour.unit }}</td>
-                    <td class="text-right">{{ cart.final_total | currency }}</td>
-                  </tr>
+                <td>{{ favour.title }}</td>
+                <td>{{ qty }} шт.</td>
+                <td class="text-right">{{ favour.price | currency }}</td>
+                </tbody>
+                <tbody>
+                <td>Эскиз</td>
+                <td>
+                  <div v-if="order.sketch">Под заказ</div>
+                  <div v-else>Пользовательский</div>
+                </td>
+                <td class="text-right" v-if="order.sketch">
+                  {{ qty * 250 | currency }}
+                </td>
+                <td class="text-right" v-else>
+                  {{ qty * 100 | currency }}
+                </td>
+                </tbody>
+                <tbody v-if="order.accessories">
+                <td>Декоративные элементы</td>
+                <td></td>
+                <td class="text-right">
+                  {{ qty * 250 | currency }}
+                </td>
                 </tbody>
                 <tfoot>
-                  <tr>
-                    <td></td>
-                    <td>Сумма</td>
-                    <td class="text-right">{{carts.final_total | currency}}</td>
-                  </tr>
+                <tr>
+                  <td></td>
+                  <td>Сумма</td>
+                  <td width="15%" class="text-right">
+                    {{sumOrder(order, qty, favour) | currency }}
+                  </td>
+                </tr>
                 </tfoot>
               </table>
             </div>
           </div>
         </div>
       </div>
-      <div>
-        <h5 class="text-center">Информация о заказе</h5>
-        <form @submit.prevent="createOrder">
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email" class="form-control"
-             :class="{'is-invalid': errors.first('email')}" v-validate="'required|email'"
-             placeholder="Пожалуйста, введите Email" v-model="form.user.email">
-            <span class="text-danger" v-if="errors.first('email')">
-              {{ errors.first('email') }}
-            </span>
-          </div>
-          <div class="form-group">
-            <label for="name">Имя получателя</label>
-            <input type="text" name="name" id="name" class="form-control"
-             :class="{'is-invalid': errors.has('name')}" v-validate="'required'"
-             placeholder="Пожалуйста, введите имя получателя" v-model="form.user.name">
-            <span class="text-danger" v-if="errors.has('name')">Поле - не должно оставаться пустым</span>
-          </div>
-          <div class="form-group">
-            <label for="tel">Телефон получателя</label>
-            <input type="tel" name="tel" id="tel" class="form-control"
-             :class="{'is-invalid': errors.has('tel')}" v-validate="'required'"
-             placeholder="Пожалуйста, введите номер телефона получателя" v-model="form.user.tel">
-            <span class="text-danger" v-if="errors.has('tel')">Поле телефона не должно быть пустым</span>
-          </div>
-          <div class="form-group">
-            <label for="address">Адрес получателя</label>
-            <input type="text" name="address" id="address" class="form-control"
-             :class="{'is-invalid': errors.has('address')}" v-validate="'required'"
-             placeholder="Пожалуйста, введите адрес получателя" v-model="form.user.address">
-            <span class="text-danger" v-if="errors.has('address')">Поле адреса не должно оставаться пустым</span>
-          </div>
-          <div class="form-group mb-4">
-            <label for="message">Комментарий к заказу</label>
-            <textarea name="message" id="message" class="form-control"
-             cols="20" rows="5" v-model="form.message"></textarea>
-          </div>
-          <div class="stepBtn">
-            <a href="#" class="btn btn-success" @click.prevent="step = 1">
-              <i class="fas fa-arrow-left"></i>
-              Назад
-            </a>
-            <button class="btn btn-danger float-right">
-              Подтвердить заказ
-              <i class="fas fa-arrow-right"></i>
-            </button>
-          </div>
-        </form>
-      </div>
+      <h5 class="text-center">Дополнительно</h5>
+      <form @submit.prevent="createOrder(qty, favour, order)">
+        <label for="size">Размер</label>
+        <div class="form-group">
+          <select class="form-control form-control-sm" v-model="form.order.size">
+            <option :value="0" disabled selected>Размер</option>
+            <option :value="1">Little</option>
+            <option :value="2">Small</option>
+            <option :value="3">Big</option>
+            <option :value="4">Large</option>
+          </select>
+        </div>
+
+        <label for="accessories">Декоративка</label>
+        <div class="form-group">
+          <select class="form-control form-control-sm" v-model="form.order.accessories">
+            <option :value="false" selected>Без декоративных элементов</option>
+            <option :value="true">
+              С декоративныи элементами
+            </option>
+          </select>
+        </div>
+
+        <label for="sketch">Эскиз</label>
+        <div class="form-group">
+          <select class="form-control form-control-sm" v-model="form.order.sketch">
+            <option :value="true" selected>Под заказ</option>
+            <option :value="false">
+              Эскиз клиента
+            </option>
+          </select>
+        </div>
+        <div class="form-group mb-4">
+          <label for="description">Комментарий к заказу</label>
+          <textarea name="description" id="description" class="form-control"
+                    cols="20" rows="5" v-model="form.order.description"></textarea>
+        </div>
+        <div class="stepBtn">
+          <a href="#" class="btn btn-success" @click.prevent="step = 1">
+            <i class="fas fa-arrow-left"></i>
+            Назад
+          </a>
+          <button class="btn btn-danger float-right">
+            Подтвердить заказ
+            <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </form>
     </div>
 
     <!-- step3：Оплата заказа -->
@@ -206,25 +190,25 @@
       <form @submit.prevent="payOrder">
         <table class="table mb-3">
           <thead>
-            <tr>
-              <th>Продукция</th>
-              <th width="25%">Количество</th>
-              <th width="15%">Цена</th>
-            </tr>
+          <tr>
+            <th>Продукция</th>
+            <th width="25%">Количество</th>
+            <th width="15%">Цена</th>
+          </tr>
           </thead>
           <tbody>
-            <tr v-for="orderItem in order.favours" :key="orderItem.id">
-              <td>{{ orderItem.favour.title }}</td>
-              <td>{{ orderItem.qty }} / {{ orderItem.favour.unit }}</td>
-              <td class="text-right">{{ orderItem.total | currency }}</td>
-            </tr>
+          <tr v-for="orderItem in order.favours" :key="orderItem.id">
+            <td>{{ orderItem.favour.title }}</td>
+            <td>{{ orderItem.qty }} / {{ orderItem.favour.unit }}</td>
+            <td class="text-right">{{ orderItem.total | currency }}</td>
+          </tr>
           </tbody>
           <tfoot>
-            <tr class="text-success">
-              <td></td>
-              <td>Сумма</td>
-              <td class="text-right">{{ order.total | currency }}</td>
-            </tr>
+          <tr class="text-success">
+            <td></td>
+            <td>Сумма</td>
+            <td class="text-right">{{ order.total | currency }}</td>
+          </tr>
           </tfoot>
         </table>
         <table class="table mb-3">
@@ -259,79 +243,126 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters } from 'vuex';
+import sumOrder from '../../filters/sumOrder';
 
 export default {
   data() {
     return {
+      id: '',
+      favour: [],
+      qty: 0,
       step: 1,
-      couponCode: '',
       form: {
-        user: {
-          name: '',
-          email: '',
-          tel: '',
-          address: '',
+        order: {
+          size: 1,
+          accessories: false,
+          sketch: true,
+          description: '',
         },
         message: '',
       },
       orderId: '',
       order: {
-        user: {
-          email: '',
-          name: '',
-          tel: '',
-          address: '',
-        },
+        favourId: 0,
+        size: 1,
+        accessories: false,
+        sketch: true,
+        description: '',
+        favour: [],
       },
     };
   },
   computed: {
-    ...mapGetters('cartModules', ['carts', 'cartsLength']),
+    ...mapGetters('favoursModules', ['favours']),
   },
   methods: {
-    removeCartItem(id) {
-      this.$store.dispatch('cartModules/removeCartItem', id);
+    sumOrder,
+    getInfoForOrder() {
+      const url = `${process.env.VUE_APP_APIPATH}/api/favours/${this.id}`;
+      this.$store.dispatch('updateLoading', true);
+      this.$http.get(url)
+        .then((response) => {
+          if (response.data.success) {
+            this.favour = response.data.favour;
+            this.favorites.forEach((item) => {
+              if (this.favour.id === item.id) {
+                this.isFavorite = true;
+              }
+            });
+          } else {
+            this.$store.dispatch('alertMessageModules/updateMessage', {
+              message: 'Не удалось найти данную услугу',
+              status: 'danger',
+            });
+          }
+          this.$store.dispatch('updateLoading', false);
+        });
     },
-    createOrder() {
-      const vm = this;
+    confirmOrder(qty) {
+      if (qty === 0) {
+        this.$store.dispatch('alertMessageModules/updateMessage', {
+          message: 'Пожалуйста, выберите количество',
+          status: 'danger',
+        });
+      } else {
+        this.step = 2;
+      }
+    },
+    createOrder(qty, favour, order) {
       const url = `${process.env.VUE_APP_APIPATH}/api/orders/create`;
-      const order = vm.form;
-      vm.$validator.validate().then((result) => {
-        if (!result) {
-          vm.$store.dispatch('alertMessageModules/updateMessage', { message: 'Неполное поле', status: 'danger' });
-        } else {
-          vm.$http.post(url, { data: order }).then((response) => {
-            vm.orderId = response.data.orderId;
-            vm.getOrder();
-            vm.step = 3;
-          });
-        }
-      });
+      const createdOrder = this.form;
+      createdOrder.favourId = favour.id;
+
+      this.$validator.validate()
+        .then((result) => {
+          if (!result) {
+            this.$store.dispatch('alertMessageModules/updateMessage', {
+              message: 'Неполное поле',
+              status: 'danger',
+            });
+          } else {
+            this.$http.post(url, { data: order })
+              .then((response) => {
+                this.orderId = response.data.orderId;
+                this.getOrder();
+                this.step = 3;
+              });
+          }
+        });
     },
     getOrder() {
-      const vm = this;
-      const url = `${process.env.VUE_APP_APIPATH}/api/orders/${vm.orderId}`;
-      vm.$http.get(url).then((response) => {
-        vm.order = response.data.order;
-      });
+      const url = `${process.env.VUE_APP_APIPATH}/api/orders/${this.orderId}`;
+      this.$http.get(url)
+        .then((response) => {
+          this.order = response.data.order;
+        });
     },
-    payOrder() {
-      const vm = this;
-      const url = `${process.env.VUE_APP_APIPATH}/api/pay/${vm.orderId}`;
-      vm.$http.post(url).then((response) => {
-        if (response.data.success) {
-          vm.$store.dispatch('alertMessageModules/updateMessage', { message: response.data.message, status: 'success' });
-          vm.getOrder();
-        } else {
-          vm.$store.dispatch('alertMessageModules/updateMessage', { message: response.data.message, status: 'danger' });
-        }
-      });
-    },
-    ...mapActions('cartModules', ['getCart']),
+    // payOrder() {
+    //   const vm = this;
+    //   const url = `${process.env.VUE_APP_APIPATH}/api/orders/pay/${vm.orderId}`;
+    //   vm.$http.post(url)
+    //     .then((response) => {
+    //       if (response.data.success) { // todo create reaction for response from server
+    //         vm.$store.dispatch('alertMessageModules/updateMessage', {
+    //           message: response.data.message,
+    //           status: 'success'
+    //         });
+    //         vm.getOrder();
+    //       } else {
+    //         vm.$store.dispatch('alertMessageModules/updateMessage', {
+    //           message: response.data.message,
+    //           status: 'danger'
+    //         });
+    //       }
+    //     })
+    // ...mapActions('ordersModules', ['getOrder']),
+    // }
   },
   created() {
-    this.$store.dispatch('cartModules/getCart');
+    this.id = this.$route.params.id;
+    this.$store.dispatch('ordersModules/getOrder');
+    this.getInfoForOrder();
   },
 };
 </script>
@@ -344,16 +375,19 @@ export default {
   justify-content: center;
   padding: 0;
   text-align: center;
+
   li {
     padding: 0.25rem 3rem;
-    @media (max-width:767px) {
+    @media (max-width: 767px) {
       display: none;
     }
+
     &:not(:last-child) {
       margin-right: 0.25rem;
     }
   }
-  @media (max-width:767px) {
+
+  @media (max-width: 767px) {
     .active {
       display: flex;
       flex-direction: column;
@@ -361,12 +395,14 @@ export default {
     }
   }
 }
+
 .thumbnail {
   margin: auto;
   background-size: cover;
   width: 80px;
   height: 80px;
 }
+
 .stepBtn {
   display: flex;
   justify-content: space-between;

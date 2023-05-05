@@ -60,7 +60,7 @@ export default new Router({
           component: () => import('@/views/Front/Favour.vue'),
         },
         {
-          path: 'createorder',
+          path: 'createorder/:id',
           name: 'CreateOrder',
           component: () => import('@/views/Front/CreateOrder.vue'),
         },

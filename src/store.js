@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 import favoursModules from './store/favours';
-import cartModules from './store/cart';
+import ordersModules from './store/order';
 import alertMessageModules from './store/alertMessage';
 import favoriteModules from './store/favorite';
 
@@ -36,7 +36,7 @@ export default new Vuex.Store({
   },
   modules: {
     favoursModules,
-    cartModules,
+    ordersModules,
     alertMessageModules,
     favoriteModules,
   },

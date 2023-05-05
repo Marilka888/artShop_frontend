@@ -12,7 +12,7 @@
           {{ select }}
         </li>
         <li class="breadcrumb-item active" v-if="filterText">
-          搜尋 {{ filterText }}
+          {{ filterText }}
         </li>
       </ol>
     </nav>
@@ -75,17 +75,16 @@
               </div>
             </div>
             <div class="favour-more">
-              <router-link :to="`/favourslist/${favour.id}`">Узнать больше</router-link>
-              <a href="#" @click.prevent="addToCart(favour.id)">
-                Добавить в корзину
-              </a>
+              <router-link :to="`/favourslist/${favour.id}`">Подробнее</router-link>
+              <router-link :to="`/createorder/${favour.id}`">
+                <i class="fas fa-cart-arrow-down"></i> Оформить заказ
+              </router-link>
             </div>
             <div class="favour-soldout" v-if="!favour.is_enabled">
               <button class="btn btn-danger border" disabled>Sold Out</button>
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>
@@ -148,9 +147,6 @@ export default {
     },
     getFavours() {
       this.$store.dispatch('favoursModules/getFavours', { isPagination: false });
-    },
-    addToCart(favourId) {
-      this.$store.dispatch('cartModules/addToCart', { id: favourId, qty: 1 });
     },
     search() {
       const vm = this;

@@ -8,22 +8,22 @@ export default ({
     isCartShow: false,
   },
   actions: {
-    getCart(context) {
-      const url = `${process.env.VUE_APP_APIPATH}/api/cart`;
+    getOrder(context, id) {
+      const url = `${process.env.VUE_APP_APIPATH}/api/orders/${id}`;
       axios.get(url).then((response) => {
         context.commit('CART', response.data.data);
         context.commit('CART_LENGTH', response.data.data.carts.length);
       });
     },
-    addToCart(context, { id, qty }) {
-      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      const cart = {
+    createPreOrder(context, { id, qty }) {
+      const url = `${process.env.VUE_APP_APIPATH}/api/orders/create`;
+      const order = {
         favour_id: id,
         qty,
       };
       context.commit('LOADING', true, { root: true });
-      axios.post(url, { data: cart }).then((response) => {
-        context.dispatch('getCart');
+      axios.post(url, { data: order }).then((response) => {
+        context.dispatch('getOrder');
         if (response.data.success) {
           context.dispatch('showCart');
           context.dispatch('alertMessageModules/updateMessage', { message: response.data.message, status: 'success' }, { root: true });
@@ -33,7 +33,7 @@ export default ({
         context.commit('LOADING', false, { root: true });
       });
     },
-    removeCartItem(context, id) {
+    removeOrder(context, id) {
       const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${id}`;
       context.commit('LOADING', true, { root: true });
       axios.delete(url).then((response) => {
@@ -42,7 +42,7 @@ export default ({
         context.commit('LOADING', false, { root: true });
       });
     },
-    showCart(context) {
+    showOrder(context) {
       context.commit('ISCART_SHOW', true);
       setTimeout(() => {
         context.commit('ISCART_SHOW', false);
@@ -61,8 +61,8 @@ export default ({
     },
   },
   getters: {
-    carts: (state) => state.carts,
-    cartsLength: (state) => state.cartsLength,
-    isCartShow: (state) => state.isCartShow,
+    carts: state => state.carts,
+    cartsLength: state => state.cartsLength,
+    isCartShow: state => state.isOrderShow,
   },
 });
