@@ -24,6 +24,7 @@
       <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Зарегистрироваться
       </button>
       <router-link class="text-muted" to="/"> &larr; Назад в магазин</router-link>
+      <router-link class="text-muted" to="/login"> Авторизация</router-link>
     </form>
   </div>
 </template>

@@ -64,6 +64,11 @@ export default new Router({
           name: 'CreateOrder',
           component: () => import('@/views/Front/CreateOrder.vue'),
         },
+        {
+          path: 'profile',
+          name: 'profile',
+          component: () => import('@/views/Front/Profile.vue'),
+        },
       ],
     },
   ],

@@ -4,11 +4,11 @@
     <form class="form-signin" @submit.prevent="signin">
       <h1 class="h3 mb-3 font-weight-normal text-center">Пожалуйста введите данные для входа</h1>
       <label for="inputEmail" class="sr-only">Email address</label>
-      <input type="email" name="email_" id="inputEmail" class="form-control"
+      <input type="email" name="email" id="inputEmail" class="form-control"
              v-model="user.email" placeholder="Email address" required autofocus>
 
       <label for="inputPassword" class="sr-only">Password</label>
-      <input type="password" name="password_" id="inputPassword" class="form-control mb-3"
+      <input type="password" name="password" id="inputPassword" class="form-control mb-3"
              v-model="user.password" placeholder="Password" required>
       <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Вход</button>
       <p class="mb-1 text-muted">&copy; 2023</p>
@@ -25,8 +25,8 @@ export default {
   data() {
     return {
       user: {
-        email_: '',
-        password_: '',
+        email: '',
+        password: '',
       },
     };
   },
@@ -34,8 +34,10 @@ export default {
     signin() {
       const api = `${process.env.VUE_APP_APIPATH}/api/auth/authenticate`;
       this.$http.post(api, this.user).then((response) => {
-        if (response.data.success) {
-          this.$router.push('/admin/favoursmanage');
+        if (response.status === 200) {
+          const { token } = response.data;
+          localStorage.setItem('user', token);
+          this.$router.push('/profile');
           this.$store.dispatch('alertMessageModules/updateMessage', { message: response.data.message, status: 'success' });
         } else {
           this.$store.dispatch('alertMessageModules/updateMessage', { message: response.data.message, status: 'danger' });
