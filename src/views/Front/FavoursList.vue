@@ -47,17 +47,17 @@
 
         <div class="card-columns">
           <div class="card text-primary favour-card"
-           v-for="favour in filterFavours" :key="favour.id">
+               v-for="favour in filterFavours" :key="favour.id">
             <div :style="{background: `url(${favour.imageUrl}) center center no-repeat`,
             backgroundSize: 'cover', height:'200px'}">
             </div>
             <div class="favorite">
               <a class="text-danger" v-if="favour.is_favorite"
-               @click.prevent="removeFavorite(favour, false)">
+                 @click.prevent="removeFavorite(favour, false)">
                 <i class="fas fa-heart fa-lg"></i>
               </a>
               <a class="text-danger" v-else
-               @click.prevent="addFavorite(favour)">
+                 @click.prevent="addFavorite(favour)">
                 <i class="far fa-heart fa-lg"></i>
               </a>
             </div>
@@ -65,12 +65,12 @@
               <h5 class="card-title mb-0">{{ favour.title }}</h5>
               <div class="d-flex align-items-baseline">
                 <p class="card-text text-secondary mb-0"
-                  v-if="favour.origin_price !== favour.price">
-                  <del> {{ favour.origin_price | currency }} </del>
+                   v-if="favour.origin_price !== favour.price">
+                  <del> {{ favour.origin_price | currency }}</del>
                 </p>
                 <p class="card-text ml-auto h5"
-                  :class="{'text-danger': favour.origin_price !== favour.price}">
-                   {{ favour.price | currency }}
+                   :class="{'text-danger': favour.origin_price !== favour.price}">
+                  {{ favour.price | currency }}
                 </p>
               </div>
             </div>
@@ -100,12 +100,30 @@ export default {
       filterText: '',
       searchText: '',
       categories: [
-        { title: 'Все', icon: 'fas fa-gift' },
-        { title: 'Одежда', icon: 'fas fa-tshirt' },
-        { title: 'Носки', icon: 'fas fa-socks' },
-        { title: 'Обувь', icon: 'fas fa-shoe-prints' },
-        { title: 'Аксессуары', icon: 'fas fa-democrat' },
-        { title: 'Другое', icon: 'fas fa-shopping-bag' },
+        {
+          title: 'Все',
+          icon: 'fas fa-gift',
+        },
+        {
+          title: 'Одежда',
+          icon: 'fas fa-tshirt',
+        },
+        {
+          title: 'Носки',
+          icon: 'fas fa-socks',
+        },
+        {
+          title: 'Обувь',
+          icon: 'fas fa-shoe-prints',
+        },
+        {
+          title: 'Аксессуары',
+          icon: 'fas fa-democrat',
+        },
+        {
+          title: 'Другое',
+          icon: 'fas fa-shopping-bag',
+        },
       ],
     };
   },
@@ -128,7 +146,10 @@ export default {
       this.$store.dispatch('favoriteModules/addToFavorite', favour);
     },
     removeFavorite(favourItem, delall) {
-      this.$store.dispatch('favoriteModules/removeFavorite', { favoriteItem: favourItem, delall });
+      this.$store.dispatch('favoriteModules/removeFavorite', {
+        favoriteItem: favourItem,
+        delall,
+      });
     },
     getParams() {
       if (this.$route.query.category) {
@@ -174,6 +195,7 @@ export default {
   position: absolute;
   top: 8px;
   right: 8px;
+
   a {
     cursor: pointer;
     font-size: 1rem;
@@ -184,18 +206,22 @@ export default {
   display: flex;
   padding-top: 0.2rem;
   text-align: center;
+
   a {
     flex: 1;
     padding: 0.5rem 0;
     border-top: 1px solid $hot-color;
+
     &:first-child {
       border-right: 1px solid $hot-color;
     }
+
     &:hover {
       background: $hot-color;
     }
   }
 }
+
 .favour-soldout {
   position: absolute;
   top: 0;
@@ -208,11 +234,13 @@ export default {
   font-family: $font-family-title;
   background-color: rgba($secondary-color, .3);
 }
+
 @media (max-width: 991px) {
   .card-columns {
     column-count: 2;
   }
 }
+
 @media (max-width: 767px) {
   .card-columns {
     column-count: 1;

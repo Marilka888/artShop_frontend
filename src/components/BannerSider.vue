@@ -75,6 +75,7 @@ export default {
 .silder-wrap {
   position: relative;
 }
+
 .swiper-container {
   width: 100%;
   height: 500px;
@@ -82,6 +83,7 @@ export default {
     height: 400px;
   }
 }
+
 .sider {
   display: flex;
   width: 100%;
@@ -94,26 +96,32 @@ export default {
     flex-direction: column;
   }
 }
+
 .sider-left {
   flex-direction: row-reverse;
   @media (max-width: 767px) {
     flex-direction: column;
   }
 }
+
 .sider-1 {
   background-image: url('../assets/image/banner-1.png');
 }
+
 .sider-2 {
   background-image: url('../assets/image/banner-2.png');
 }
+
 .sider-3 {
   background-image: url('../assets/image/banner-3.png');
 }
+
 .sider-rect {
   flex: 1.5;
   margin: 2.5rem;
   border: solid $hot-color 3px;
 }
+
 .sider-content {
   flex: 1;
   display: flex;

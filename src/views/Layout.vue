@@ -176,7 +176,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import Alert from '@/components/AlertMessage.vue';
 
 export default {

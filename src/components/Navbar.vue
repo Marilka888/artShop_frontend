@@ -16,8 +16,7 @@ export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Navbar',
   data() {
-    return {
-    };
+    return {};
   },
 };
 </script>

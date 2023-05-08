@@ -5,10 +5,10 @@
     <!-- category -->
     <ul class="row m-0 mb-4 category">
       <li class="col-lg-2 col-md-4 col-6" v-for="(category, key) in categories" :key="key"
-       @click.prevent="categoryBtn(category.title)">
+          @click.prevent="categoryBtn(category.title)">
         <i :class="category.icon"></i>
         <ul class="ml-3">
-          <li>{{category.name}}</li>
+          <li>{{ category.name }}</li>
         </ul>
       </li>
     </ul>
@@ -25,7 +25,7 @@
           <div class="cart-border">
             <h3 class="mb-3">Открой</h3>
             <p>Мир души и любви</p>
-            <router-link to="/favourslist" class="btn btn-primary"> Каталог </router-link>
+            <router-link to="/favourslist" class="btn btn-primary"> Каталог</router-link>
           </div>
         </div>
       </div>
@@ -34,7 +34,7 @@
           <div class="cart-border">
             <h3 class="mb-3">Новые услуги</h3>
             <p>Деревянные значки</p>
-            <router-link to="/favourslist" class="btn btn-primary"> Каталог </router-link>
+            <router-link to="/favourslist" class="btn btn-primary"> Каталог</router-link>
           </div>
         </div>
         <div class="mb-4 cart-img cart-img-2">
@@ -54,19 +54,46 @@ export default {
   data() {
     return {
       categories: [
-        { name: 'Все', title: 'Все', icon: 'fas fa-gift fa-2x' },
-        { name: 'Одежда', title: 'Одежда', icon: 'fas fa-tshirt fa-2x' },
-        { name: 'Носки', title: 'Носки', icon: 'fas fa-socks fa-2x' },
-        { name: 'Обувь', title: 'Обувь', icon: 'fas fa-shoe-prints fa-2x' },
-        { name: 'Аксессуары', title: 'Аксессуары', icon: 'fas fa-democrat fa-2x' },
-        { name: 'Другое', title: 'Другое', icon: 'fas fa-shopping-bag fa-2x' },
+        {
+          name: 'Все',
+          title: 'Все',
+          icon: 'fas fa-gift fa-2x',
+        },
+        {
+          name: 'Одежда',
+          title: 'Одежда',
+          icon: 'fas fa-tshirt fa-2x',
+        },
+        {
+          name: 'Носки',
+          title: 'Носки',
+          icon: 'fas fa-socks fa-2x',
+        },
+        {
+          name: 'Обувь',
+          title: 'Обувь',
+          icon: 'fas fa-shoe-prints fa-2x',
+        },
+        {
+          name: 'Аксессуары',
+          title: 'Аксессуары',
+          icon: 'fas fa-democrat fa-2x',
+        },
+        {
+          name: 'Другое',
+          title: 'Другое',
+          icon: 'fas fa-shopping-bag fa-2x',
+        },
       ],
     };
   },
   methods: {
     categoryBtn(categoryTitle) {
       const vm = this;
-      vm.$router.push({ path: '/favourslist', query: { category: categoryTitle } });
+      vm.$router.push({
+        path: '/favourslist',
+        query: { category: categoryTitle },
+      });
     },
   },
   components: {
@@ -81,7 +108,7 @@ export default {
 
 //category
 .category {
-  >li {
+  > li {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -90,13 +117,15 @@ export default {
     cursor: pointer;
     text-align: center;
     color: $secondary-color;
-    white-space:nowrap;
+    white-space: nowrap;
+
     &:hover, &:active {
       background-color: $hot-color;
       color: $primary-color;
     }
   }
-  >li:not(:last-child) {
+
+  > li:not(:last-child) {
     border-right: $hot-color solid 1px;
     @media(max-width: 992px) {
       border: none;
@@ -111,16 +140,17 @@ export default {
   align-items: center;
   margin-bottom: 1.5rem;
   padding: 1.5rem;
-  @media (max-width:569px) {
+  @media (max-width: 569px) {
     flex-direction: column;
     text-align: center;
     > div {
       margin-bottom: 1rem;
     }
   }
+
   .btn {
     width: 20%;
-    @media (max-width:569px) {
+    @media (max-width: 569px) {
       width: 100%;
     }
   }
@@ -129,13 +159,16 @@ export default {
 //cart
 .cart {
   text-align: center;
+
   h3 {
     font-family: $font-family-title;
   }
+
   p {
     font-family: $font-family-text;
   }
 }
+
 .cart-img {
   padding: 10rem 0;
   color: $white-color;
@@ -144,22 +177,27 @@ export default {
     padding: 5rem 0;
   }
 }
+
 .cart-img-1 {
   background: url('../../assets/image/cart-1.png') bottom center no-repeat;
   background-size: cover;
 }
+
 .cart-img-2 {
   background: url('../../assets/image/cart-2.png') bottom center no-repeat;
   background-size: cover;
 }
+
 .cart-content {
   padding: 2rem;
   background-color: $hot-color;
 }
+
 .cart-border {
   padding: 2.5rem 0;
   border: 2.5px $white-color solid;
 }
+
 @media (max-width: 767px) {
   .cart-reverse {
     display: flex;

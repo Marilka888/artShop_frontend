@@ -3,10 +3,10 @@
     <swiper :options="swiperOption">
       <swiper-slide v-for="item in newFavours" :key="item.id">
         <ul class="sider" :style='{backgroundImage: `url(${item.imageUrl})`}'
-          @click.prevent="favourBtn(item.id)">
+            @click.prevent="favourBtn(item.id)">
           <li class="sider-tag">
             <div class="sider-triangle"></div>
-            <span class="sider-title"> {{item.category}} </span>
+            <span class="sider-title"> {{ item.category }} </span>
           </li>
           <li class="sider-rect">{{ item.title }}</li>
         </ul>
@@ -45,7 +45,8 @@ export default {
   },
   computed: {
     newFavours() {
-      return this.favours.filter((item) => item.is_enabled === 1).slice(0, 12);
+      return this.favours.filter(item => item.is_enabled === 1)
+        .slice(0, 12);
     },
     ...mapGetters('favoursModules', ['favours']),
   },
@@ -81,6 +82,7 @@ export default {
   border: 1px solid $hot-color;
   cursor: pointer;
 }
+
 .sider-title {
   position: absolute;
   top: 0px;
@@ -90,6 +92,7 @@ export default {
   color: #fff;
   text-shadow: 1px 1px 1px #ccc;
 }
+
 .sider-rect {
   display: flex;
   justify-content: center;
@@ -99,12 +102,13 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: rgba($primary-color,0.5);
+  background-color: rgba($primary-color, 0.5);
   opacity: 0;
   transition: all 0.3s ease;
   color: $white-color;
   font-size: 1.5rem;
   letter-spacing: 0.2rem;
+
   &:hover, &:active {
     opacity: 1;
   }

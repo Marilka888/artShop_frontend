@@ -40,7 +40,10 @@ export default ({
     FAVOURS(state, payload) {
       state.favours = payload;
     },
-    UPDATEFAVOURS(state, { index, isFavorite }) {
+    UPDATEFAVOURS(state, {
+      index,
+      isFavorite,
+    }) {
       Vue.set(state.favours[index], 'is_favorite', isFavorite);
     },
   },

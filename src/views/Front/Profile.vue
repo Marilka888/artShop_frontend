@@ -56,9 +56,9 @@
         </div>
       </div>
       <div v-else>
-          <router-link to="/admin/ordersmanage" class="w-100 btn btn-primary btn-lg" type="submit">
-            Заказы
-          </router-link>
+        <router-link to="/admin/ordersmanage" class="w-100 btn btn-primary btn-lg" type="submit">
+          Заказы
+        </router-link>
       </div>
     </main>
   </div>

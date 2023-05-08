@@ -10,7 +10,7 @@
   </div>
 </template>
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -23,7 +23,10 @@ export default {
   },
   methods: {
     updateMessage(message, status) {
-      this.$store.dispatch('alertMessageModules/updateMessage', { message, status });
+      this.$store.dispatch('alertMessageModules/updateMessage', {
+        message,
+        status
+      });
     },
     ...mapActions('alertMessageModules', ['removeMessage', 'removeMessageWithTiming']),
   },

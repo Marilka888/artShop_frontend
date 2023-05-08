@@ -33,44 +33,44 @@
                 </button>
                 <div id="collapseOne" class="collapse"
                      aria-labelledby="headingOne" data-parent="#accordion">
-                    <div class="table-responsive">
-                      <div class="table d-table">
-                        <tbody>
-                        <tr>
-                          <th class="text-left">Заказчик:</th>
-                          <td class="text-left" v-if="order.user">
-                            {{ order.user.firstname }} {{ order.user.lastname }}
-                          </td>
-                        </tr>
-                        <tr>
-                          <th class="text-left">Телефон:</th>
-                          <td class="text-left" v-if="order.user">{{
-                              order.user.phone
-                            }}
-                          </td>
-                        </tr>
-                        <tr>
-                          <th class="text-left">Комментарий:</th>
-                          <td class="text-left">{{ order.description }}</td>
-                        </tr>
-                        <tr>
-                          <th class="text-left">Сумма:</th>
-                          <td class="text-left">{{ order.sum }} ₽</td>
-                        </tr>
-                        <tr>
-                          <th class="text-left">Статус заказа:</th>
-                          <td class="text-left" v-if="order.stage!=='COMPLETED'">
-                            <button type="button" @click="doneOrder(order.id)">
-                              {{ order.stage }}
-                            </button>
-                          </td>
-                          <td class="text-left" v-else>
-                            <strong class="text-success">Выполнен</strong>
-                          </td>
-                        </tr>
-                        </tbody>
-                      </div>
+                  <div class="table-responsive">
+                    <div class="table d-table">
+                      <tbody>
+                      <tr>
+                        <th class="text-left">Заказчик:</th>
+                        <td class="text-left" v-if="order.user">
+                          {{ order.user.firstname }} {{ order.user.lastname }}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th class="text-left">Телефон:</th>
+                        <td class="text-left" v-if="order.user">{{
+                            order.user.phone
+                          }}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th class="text-left">Комментарий:</th>
+                        <td class="text-left">{{ order.description }}</td>
+                      </tr>
+                      <tr>
+                        <th class="text-left">Сумма:</th>
+                        <td class="text-left">{{ order.sum }} ₽</td>
+                      </tr>
+                      <tr>
+                        <th class="text-left">Статус заказа:</th>
+                        <td class="text-left" v-if="order.stage!=='COMPLETED'">
+                          <button type="button" @click="doneOrder(order.id)">
+                            {{ order.stage }}
+                          </button>
+                        </td>
+                        <td class="text-left" v-else>
+                          <strong class="text-success">Выполнен</strong>
+                        </td>
+                      </tr>
+                      </tbody>
                     </div>
+                  </div>
                 </div>
               </div>
             </div>
