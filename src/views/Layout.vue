@@ -21,8 +21,13 @@
               Каталог
             </router-link>
           </li>
-          <li class="nav-item ml-lg-auto pt-1">
+          <li class="nav-item ml-lg-auto pt-1" v-if="true">
             <router-link class="nav-link" to="/login">
+              <i class="fas fa-user-circle fa-lg"></i>
+            </router-link>
+          </li>
+          <li class="nav-item ml-lg-auto pt-1" v-else>
+            <router-link class="nav-link" to="/profile">
               <i class="fas fa-user-circle fa-lg"></i>
             </router-link>
           </li>

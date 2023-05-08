@@ -126,7 +126,7 @@
                   <td></td>
                   <td>Сумма</td>
                   <td width="15%" class="text-right">
-                    {{sumOrder(order, qty, favour) | currency }}
+                    {{ sumOrder(order, qty, favour) | currency }}
                   </td>
                 </tr>
                 </tfoot>
@@ -136,10 +136,10 @@
         </div>
       </div>
       <h5 class="text-center">Дополнительно</h5>
-      <form @submit.prevent="createOrder(qty, favour, order)">
-        <label for="size">Размер</label>
+      <form @submit.prevent="createOrder(order)">
+        <h5>Размер</h5>
         <div class="form-group">
-          <select class="form-control form-control-sm" v-model="form.order.size">
+          <select class="form-control form-control-sm" v-model="order.size">
             <option :value="0" disabled selected>Размер</option>
             <option :value="1">Little</option>
             <option :value="2">Small</option>
@@ -148,9 +148,9 @@
           </select>
         </div>
 
-        <label for="accessories">Декоративка</label>
+        <h5>Декоративка</h5>
         <div class="form-group">
-          <select class="form-control form-control-sm" v-model="form.order.accessories">
+          <select class="form-control form-control-sm" v-model="order.accessories">
             <option :value="false" selected>Без декоративных элементов</option>
             <option :value="true">
               С декоративныи элементами
@@ -158,9 +158,9 @@
           </select>
         </div>
 
-        <label for="sketch">Эскиз</label>
+        <h5>Эскиз</h5>
         <div class="form-group">
-          <select class="form-control form-control-sm" v-model="form.order.sketch">
+          <select class="form-control form-control-sm" v-model="order.sketch">
             <option :value="true" selected>Под заказ</option>
             <option :value="false">
               Эскиз клиента
@@ -170,7 +170,7 @@
         <div class="form-group mb-4">
           <label for="description">Комментарий к заказу</label>
           <textarea name="description" id="description" class="form-control"
-                    cols="20" rows="5" v-model="form.order.description"></textarea>
+                    cols="20" rows="5" v-model="order.description"></textarea>
         </div>
         <div class="stepBtn">
           <a href="#" class="btn btn-success" @click.prevent="step = 1">
@@ -187,57 +187,57 @@
 
     <!-- step3：Оплата заказа -->
     <div v-if="step === 3" class="mb-4">
-      <form @submit.prevent="payOrder">
-        <table class="table mb-3">
-          <thead>
-          <tr>
-            <th>Продукция</th>
-            <th width="25%">Количество</th>
-            <th width="15%">Цена</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr v-for="orderItem in order.favours" :key="orderItem.id">
-            <td>{{ orderItem.favour.title }}</td>
-            <td>{{ orderItem.qty }} / {{ orderItem.favour.unit }}</td>
-            <td class="text-right">{{ orderItem.total | currency }}</td>
-          </tr>
-          </tbody>
-          <tfoot>
-          <tr class="text-success">
-            <td></td>
-            <td>Сумма</td>
-            <td class="text-right">{{ order.total | currency }}</td>
-          </tr>
-          </tfoot>
-        </table>
-        <table class="table mb-3">
-          <tr>
-            <th width="150">Email</th>
-            <td>{{ order.user.email }}</td>
-          </tr>
-          <tr>
-            <th>Имя получателя</th>
-            <td>{{ order.user.name }}</td>
-          </tr>
-          <tr>
-            <th>Телефон получателя</th>
-            <td>{{ order.user.tel }}</td>
-          </tr>
-          <tr>
-            <th>Комментарий к заказу</th>
-            <td>{{ order.user.message }}</td>
-          </tr>
-          <tr>
-            <th>Выплата</th>
-            <td v-if="!order.is_paid">Не оплачено</td>
-            <td class="text-success" v-else>Успешный платеж</td>
-          </tr>
-        </table>
-        <div class="text-right" v-if="!order.is_paid">
-          <button class="btn btn-danger">Подтвердить оплату</button>
-        </div>
-      </form>
+<!--      <form @submit.prevent="payOrder">-->
+<!--        <table class="table mb-3">-->
+<!--          <thead>-->
+<!--          <tr>-->
+<!--            <th>Продукция</th>-->
+<!--            <th width="25%">Количество</th>-->
+<!--            <th width="15%">Цена</th>-->
+<!--          </tr>-->
+<!--          </thead>-->
+<!--          <tbody>-->
+<!--          <tr v-for="orderItem in order.favours" :key="orderItem.id">-->
+<!--            <td>{{ orderItem.favour.title }}</td>-->
+<!--            <td>{{ orderItem.qty }} / {{ orderItem.favour.unit }}</td>-->
+<!--            <td class="text-right">{{ orderItem.total | currency }}</td>-->
+<!--          </tr>-->
+<!--          </tbody>-->
+<!--          <tfoot>-->
+<!--          <tr class="text-success">-->
+<!--            <td></td>-->
+<!--            <td>Сумма</td>-->
+<!--            <td class="text-right">{{ order.total | currency }}</td>-->
+<!--          </tr>-->
+<!--          </tfoot>-->
+<!--        </table>-->
+<!--        <table class="table mb-3">-->
+<!--          <tr>-->
+<!--            <th width="150">Email</th>-->
+<!--            <td>{{ order.user.email }}</td>-->
+<!--          </tr>-->
+<!--          <tr>-->
+<!--            <th>Имя получателя</th>-->
+<!--            <td>{{ order.user.name }}</td>-->
+<!--          </tr>-->
+<!--          <tr>-->
+<!--            <th>Телефон получателя</th>-->
+<!--            <td>{{ order.user.tel }}</td>-->
+<!--          </tr>-->
+<!--          <tr>-->
+<!--            <th>Комментарий к заказу</th>-->
+<!--            <td>{{ order.user.message }}</td>-->
+<!--          </tr>-->
+<!--          <tr>-->
+<!--            <th>Выплата</th>-->
+<!--            <td v-if="!order.is_paid">Не оплачено</td>-->
+<!--            <td class="text-success" v-else>Успешный платеж</td>-->
+<!--          </tr>-->
+<!--        </table>-->
+<!--        <div class="text-right" v-if="!order.is_paid">-->
+<!--          <button class="btn btn-danger">Подтвердить оплату</button>-->
+<!--        </div>-->
+<!--      </form>-->
     </div>
   </div>
 </template>
@@ -253,21 +253,13 @@ export default {
       favour: [],
       qty: 0,
       step: 1,
-      form: {
-        order: {
-          size: 1,
-          accessories: false,
-          sketch: true,
-          description: '',
-        },
-        message: '',
-      },
       orderId: '',
       order: {
-        favourId: 0,
+        favourId: this.id,
         size: 1,
         accessories: false,
         sketch: true,
+        qty: this.qty,
         description: '',
         favour: [],
       },
@@ -309,59 +301,63 @@ export default {
         this.step = 2;
       }
     },
-    createOrder(qty, favour, order) {
+    createOrder(addOrder) {
       const url = `${process.env.VUE_APP_APIPATH}/api/orders/create`;
-      const createdOrder = this.form;
-      createdOrder.favourId = favour.id;
-
-      this.$validator.validate()
-        .then((result) => {
-          if (!result) {
-            this.$store.dispatch('alertMessageModules/updateMessage', {
-              message: 'Неполное поле',
-              status: 'danger',
-            });
-          } else {
-            this.$http.post(url, { data: order })
-              .then((response) => {
-                this.orderId = response.data.orderId;
-                this.getOrder();
-                this.step = 3;
-              });
-          }
-        });
+      const order = {
+        favourId: this.id,
+        size: addOrder.size,
+        accessories: addOrder.accessories,
+        sketch: addOrder.sketch,
+        qty: this.qty,
+        description: addOrder.description,
+      };
+      this.$http.post(url, order, {
+        headers: {
+          authorization: `Bearer ${localStorage.user}`,
+        },
+      }).then((response) => {
+        this.orderId = response.data;
+        this.getOrder();
+        this.step = 3;
+      });
     },
     getOrder() {
       const url = `${process.env.VUE_APP_APIPATH}/api/orders/${this.orderId}`;
-      this.$http.get(url)
+      this.$http.get(url, {
+        headers: {
+          authorization: `Bearer ${localStorage.user}`,
+        },
+      })
         .then((response) => {
           this.order = response.data.order;
         });
     },
-    // payOrder() {
-    //   const vm = this;
-    //   const url = `${process.env.VUE_APP_APIPATH}/api/orders/pay/${vm.orderId}`;
-    //   vm.$http.post(url)
-    //     .then((response) => {
-    //       if (response.data.success) { // todo create reaction for response from server
-    //         vm.$store.dispatch('alertMessageModules/updateMessage', {
-    //           message: response.data.message,
-    //           status: 'success'
-    //         });
-    //         vm.getOrder();
-    //       } else {
-    //         vm.$store.dispatch('alertMessageModules/updateMessage', {
-    //           message: response.data.message,
-    //           status: 'danger'
-    //         });
-    //       }
-    //     })
-    // ...mapActions('ordersModules', ['getOrder']),
-    // }
+    payOrder() {
+      const vm = this;
+      const url = `${process.env.VUE_APP_APIPATH}/api/orders/pay/${vm.orderId}`;
+      vm.$http.post(url, {
+        headers: {
+          authorization: `Bearer ${localStorage.user}`,
+        },
+      })
+        .then((response) => {
+          if (response.status.ok) {
+            vm.$store.dispatch('alertMessageModules/updateMessage', {
+              message: 'Оплата прошла, спасибо!',
+              status: 'success',
+            });
+            vm.getOrder();
+          } else {
+            vm.$store.dispatch('alertMessageModules/updateMessage', {
+              message: 'Произошла ошибка, попробуйте авторизоваться',
+              status: 'danger',
+            });
+          }
+        });
+    },
   },
   created() {
     this.id = this.$route.params.id;
-    this.$store.dispatch('ordersModules/getOrder');
     this.getInfoForOrder();
   },
 };

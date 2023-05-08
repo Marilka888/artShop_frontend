@@ -94,18 +94,10 @@ export default {
           vm.profile.email = response.data.email;
           vm.profile.age = response.data.age;
           vm.profile.dateOfCreated = response.data.dateOfCreated;
-          // eslint-disable-next-line max-len
+          // eslint-disable-next-line max-len,no-return-assign
           response.data.orders.forEach(order => order.dateOfCreated = order.dateOfCreated.split('T')[0]);
           vm.profile.orders = response.data.orders;
-          vm.$store.dispatch('updateLoading', false);
         });
-    },
-    categoryBtn(categoryTitle) {
-      const vm = this;
-      vm.$router.push({
-        path: '/favourslist',
-        query: { category: categoryTitle },
-      });
     },
   },
   watch: {

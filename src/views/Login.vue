@@ -11,9 +11,10 @@
       <input type="password" name="password" id="inputPassword" class="form-control mb-3"
              v-model="user.password" placeholder="Password" required>
       <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Вход</button>
-      <p class="mb-1 text-muted">&copy; 2023</p>
+      <p class="mb-1 text-muted">
+        <router-link class="text-muted" to="/register"> Регистрация</router-link>
+      </p>
       <router-link class="text-muted" to="/"> &larr; Назад в магазин</router-link>
-      <router-link class="text-muted" to="/register"> Регистрация</router-link>
     </form>
   </div>
 </template>
@@ -33,16 +34,23 @@ export default {
   methods: {
     signin() {
       const api = `${process.env.VUE_APP_APIPATH}/api/auth/authenticate`;
-      this.$http.post(api, this.user).then((response) => {
-        if (response.status === 200) {
-          const { token } = response.data;
-          localStorage.setItem('user', token);
-          this.$router.push('/profile');
-          this.$store.dispatch('alertMessageModules/updateMessage', { message: response.data.message, status: 'success' });
-        } else {
-          this.$store.dispatch('alertMessageModules/updateMessage', { message: response.data.message, status: 'danger' });
-        }
-      });
+      this.$http.post(api, this.user)
+        .then((response) => {
+          if (response.status === 200) {
+            const { token } = response.data;
+            localStorage.setItem('user', token);
+            this.$router.push('/profile');
+            this.$store.dispatch('alertMessageModules/updateMessage', {
+              message: 'Вы успешно авторизовались',
+              status: 'success',
+            });
+          } else {
+            this.$store.dispatch('alertMessageModules/updateMessage', {
+              message: response.data.message,
+              status: 'danger',
+            });
+          }
+        });
     },
   },
   components: {
@@ -58,9 +66,11 @@ export default {
   padding: 20px;
   margin: auto;
 }
+
 .form-signin .checkbox {
   font-weight: 400;
 }
+
 .form-signin .form-control {
   position: relative;
   box-sizing: border-box;
@@ -68,14 +78,17 @@ export default {
   padding: 10px;
   font-size: 16px;
 }
+
 .form-signin .form-control:focus {
   z-index: 2;
 }
+
 .form-signin input[type="email"] {
   margin-bottom: -1px;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
+
 .form-signin input[type="password"] {
   margin-bottom: 10px;
   border-top-left-radius: 0;

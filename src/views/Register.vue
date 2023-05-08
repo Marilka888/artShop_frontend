@@ -2,7 +2,7 @@
   <div class="mt-5">
     <Alert/>
     <form class="form-signup" @submit.prevent="signup">
-      <h1 class="h3 mb-3 font-weight-normal text-center">Пожалуйста введите данные для входа</h1>
+      <h1 class="h3 mb-3 font-weight-normal text-center">Регистрация</h1>
       <label for="inputFirstname" class="sr-only">Firstname</label>
       <input type="firstname" id="inputFirstname" class="form-control mb-3"
              v-model="user.firstname" placeholder="Firstname" required>
@@ -23,8 +23,10 @@
              v-model="user.phone" placeholder="Phone" required>
       <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Зарегистрироваться
       </button>
+      <p class="mb-1 text-muted">
+        <router-link class="text-muted" to="/login"> Авторизация</router-link>
+      </p>
       <router-link class="text-muted" to="/"> &larr; Назад в магазин</router-link>
-      <router-link class="text-muted" to="/login"> Авторизация</router-link>
     </form>
   </div>
 </template>
