@@ -5,28 +5,28 @@
         <h2>Добрый день, {{ profile.firstname }}</h2>
       </div>
 
-      <div class="row g-5">
+      <div class="row g-5" v-if="profile.role === 'USER'">
         <div class="col-md-7 col-lg-8">
           <h4 class="d-flex justify-content-between align-items-center mb-3">
             <span class="text-primary">Ваши заказы</span>
           </h4>
           <ul class="list-group mb-3">
-              <li class="list-group-item d-flex justify-content-between lh-sm"
-                  v-for="order in profile.orders" :key="order.id" style="background: #c6faff">
-                <div style="color:#1ca904;" v-if="order.status">
-                  <h6 class="my-0">{{ order.favour.title }} (Готово)</h6>
-                  <small class="text-muted">{{ order.dateOfCreated }}</small>
-                </div>
-                <div style="color:#ff2257;" v-else>
-                  <h6 class="my-0">{{ order.favour.title }} (В работе)</h6>
-                  <small class="text-muted">{{ order.dateOfCreated }}</small>
-                </div>
-                <span class="text-muted" style="font-weight: 500; font-style: italic">{{
-                    order.sum
-                  }}&nbsp;₽</span>
-                <div id="collapse" class="accordion-collapse collapse">
-                </div>
-              </li>
+            <li class="list-group-item d-flex justify-content-between lh-sm"
+                v-for="ord in profile.orders" :key="ord.id" style="background: #c6faff">
+              <div style="color:#1ca904;" v-if="ord.status">
+                <h6 class="my-0">{{ ord.favour.title }} (Готово)</h6>
+                <small class="text-muted">{{ ord.dateOfCreated }}</small>
+              </div>
+              <div style="color:#ff2257;" v-else>
+                <h6 class="my-0">{{ ord.favour.title }} (В работе)</h6>
+                <small class="text-muted">{{ ord.dateOfCreated }}</small>
+              </div>
+              <span class="text-muted" style="font-weight: 500; font-style: italic">{{
+                  ord.sum
+                }}&nbsp;₽</span>
+              <div id="collapse" class="accordion-collapse collapse">
+              </div>
+            </li>
           </ul>
         </div>
 
@@ -54,6 +54,14 @@
             </router-link>
           </form>
         </div>
+      </div>
+      <div v-else>
+        <router-link to="/admin/ordersmanage" class="w-100 btn btn-primary btn-lg" type="submit">
+          order
+        </router-link>
+        <router-link to="/admin/favoursmanage" class="w-100 btn btn-primary btn-lg" type="submit">
+          favour
+        </router-link>
       </div>
     </main>
   </div>
@@ -87,6 +95,9 @@ export default {
         },
       })
         .then((response) => {
+          // eslint-disable-next-line no-param-reassign
+          response.data.orders.forEach(ord =>
+            ord.dateOfCreated = ord.dateOfCreated.split('T')[0]);
           vm.profile.role = response.data.role;
           vm.profile.firstname = response.data.firstname;
           vm.profile.lastname = response.data.lastname;
@@ -94,8 +105,6 @@ export default {
           vm.profile.email = response.data.email;
           vm.profile.age = response.data.age;
           vm.profile.dateOfCreated = response.data.dateOfCreated;
-          // eslint-disable-next-line max-len,no-return-assign
-          response.data.orders.forEach(order => order.dateOfCreated = order.dateOfCreated.split('T')[0]);
           vm.profile.orders = response.data.orders;
         });
     },

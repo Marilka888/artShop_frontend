@@ -32,22 +32,5 @@ axios.defaults.withCredentials = true;
 new Vue({
   router,
   store,
-  render: (h) => h(App),
+  render: h => h(App),
 }).$mount('#app');
-
-router.beforeEach((to, from, next) => {
-  if (to.meta.requiresAuth) {
-    const api = `${process.env.VUE_APP_APIPATH}/api/auth/authenticate`;
-    axios.post(api).then((response) => {
-      if (response.data.success) {
-        next();
-      } else {
-        next({
-          path: '/login',
-        });
-      }
-    });
-  } else {
-    next();
-  }
-});

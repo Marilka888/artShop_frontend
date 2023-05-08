@@ -3,32 +3,69 @@
     <div class="table-responsive-xl">
       <table class="table nowrap">
         <thead>
-          <tr>
-            <th class="text-center">Время покупки</th>
-            <th class="d-sm-table-cell d-none text-center">Email</th>
-            <th class="d-lg-table-cell d-none text-center">Оплата покупки</th>
-            <th class="text-center">Суммы к оплате</th>
-            <th class="d-sm-table-cell d-none text-center">Оплата</th>
-          </tr>
+        <tr>
+          <th class="text-center">Время заказа</th>
+          <th class="d-sm-table-cell d-none text-left" width="100">Услуга</th>
+          <th class="d-sm-table-cell d-none text-left">Оплата</th>
+          <th class="d-sm-table-cell d-none text-center">Подробнее</th>
+        </tr>
         </thead>
         <tbody>
-          <tr :class="{ 'bg-light' :order.is_paid }" v-for="order in orders" :key="order.id">
-            <td class="text-center">{{ order.create_at | date }}</td>
-            <td class="d-sm-table-cell d-none" v-if="order.user">{{ order.user.email }}</td>
-            <td class="d-lg-table-cell d-none">
-              <ul class="list-unstyled">
-                <li v-for="(order_favour, i) in order.favours" :key="i">
-                  {{order_favour.favour.title}}:{{order_favour.qty}}
-                   {{order_favour.favour.unit}}
-                </li>
-              </ul>
-            </td>
-            <td class="text-right">{{ order.total | currency }}</td>
-            <td class="d-sm-table-cell d-none text-center">
-              <strong class="text-success" v-if="order.is_paid">Оплаченный</strong>
-              <span class="text-muted" v-else>Не оплачен</span>
-            </td>
-          </tr>
+        <tr v-for="order in orders" :key="order.id">
+          <td class="text-center">{{ order.dateOfCreated }}</td>
+          <td class="text-left" width="100" v-if="order.favour">{{ order.favour.title }}</td>
+          <td class="text-left">
+            <strong class="text-success" v-if="order.stage!==0">Оплаченный</strong>
+            <span class="text-muted" v-else>Не оплачен</span>
+          </td>
+          <td class="text-center">
+            <div id="accordion">
+              <div class="card mb-3">
+                <div class="card-header" id="headingOne">
+                  <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse"
+                            data-target="#collapseOne" aria-expanded="true"
+                            aria-controls="collapseOne">
+                      Подробнее <i class="fas fa-caret-down"></i>
+                    </button>
+                  </h5>
+                </div>
+                <div id="collapseOne" class="collapse"
+                     aria-labelledby="headingOne" data-parent="#accordion">
+                    <div class="col-sm-9 col-12">
+                      <div class="table-responsive">
+                        <div class="table d-table">
+                          <tbody>
+                          <tr>
+                            <th class="text-left">Заказчик:</th>
+                            <td class="text-left" v-if="order.user">
+                              {{ order.user.firstname }} {{ order.user.lastname }}
+                            </td>
+                          </tr>
+                          <tr>
+                            <th class="text-left">Телефон:</th>
+                            <td class="text-left"  v-if="order.user">{{
+                                order.user.phone
+                              }}
+                            </td>
+                          </tr>
+                          <tr>
+                            <th class="text-left">Комментарий:</th>
+                            <td class="text-left">{{ order.description }}</td>
+                          </tr>
+                          <tr>
+                            <th class="text-left">Сумма:</th>
+                            <td class="text-left">{{ order.sum }} ₽</td>
+                          </tr>
+                          </tbody>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
         </tbody>
       </table>
     </div>
@@ -56,14 +93,24 @@ export default {
       const vm = this;
       const url = `${process.env.VUE_APP_APIPATH}/api/orders/admin/all`;
       vm.$store.dispatch('updateLoading', true);
-      vm.$http.get(url).then((response) => {
-        if (response.data.success) {
-          vm.orders = response.data.orders;
-        } else {
-          vm.$store.dispatch('alertMessageModules/updateMessage', { message: response.data.message, status: 'danger' });
-        }
-        vm.$store.dispatch('updateLoading', false);
-      });
+      vm.$http.get(url, {
+        headers: {
+          authorization: `Bearer ${localStorage.user}`,
+        },
+      })
+        .then((response) => {
+          if (response.data.success) {
+            // eslint-disable-next-line no-param-reassign
+            response.data.orders.forEach(ord => ord.dateOfCreated = ord.dateOfCreated.split('T')[0]);
+            vm.orders = response.data.orders;
+          } else {
+            vm.$store.dispatch('alertMessageModules/updateMessage', {
+              message: response.data.message,
+              status: 'danger',
+            });
+          }
+          vm.$store.dispatch('updateLoading', false);
+        });
     },
   },
   created() {
