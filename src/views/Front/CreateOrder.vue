@@ -187,57 +187,55 @@
 
     <!-- step3：Оплата заказа -->
     <div v-if="step === 3" class="mb-4">
-<!--      <form @submit.prevent="payOrder">-->
-<!--        <table class="table mb-3">-->
-<!--          <thead>-->
-<!--          <tr>-->
-<!--            <th>Продукция</th>-->
-<!--            <th width="25%">Количество</th>-->
-<!--            <th width="15%">Цена</th>-->
-<!--          </tr>-->
-<!--          </thead>-->
-<!--          <tbody>-->
-<!--          <tr v-for="orderItem in order.favours" :key="orderItem.id">-->
-<!--            <td>{{ orderItem.favour.title }}</td>-->
-<!--            <td>{{ orderItem.qty }} / {{ orderItem.favour.unit }}</td>-->
-<!--            <td class="text-right">{{ orderItem.total | currency }}</td>-->
-<!--          </tr>-->
-<!--          </tbody>-->
-<!--          <tfoot>-->
-<!--          <tr class="text-success">-->
-<!--            <td></td>-->
-<!--            <td>Сумма</td>-->
-<!--            <td class="text-right">{{ order.total | currency }}</td>-->
-<!--          </tr>-->
-<!--          </tfoot>-->
-<!--        </table>-->
-<!--        <table class="table mb-3">-->
-<!--          <tr>-->
-<!--            <th width="150">Email</th>-->
-<!--            <td>{{ order.user.email }}</td>-->
-<!--          </tr>-->
-<!--          <tr>-->
-<!--            <th>Имя получателя</th>-->
-<!--            <td>{{ order.user.name }}</td>-->
-<!--          </tr>-->
-<!--          <tr>-->
-<!--            <th>Телефон получателя</th>-->
-<!--            <td>{{ order.user.tel }}</td>-->
-<!--          </tr>-->
-<!--          <tr>-->
-<!--            <th>Комментарий к заказу</th>-->
-<!--            <td>{{ order.user.message }}</td>-->
-<!--          </tr>-->
-<!--          <tr>-->
-<!--            <th>Выплата</th>-->
-<!--            <td v-if="!order.is_paid">Не оплачено</td>-->
-<!--            <td class="text-success" v-else>Успешный платеж</td>-->
-<!--          </tr>-->
-<!--        </table>-->
-<!--        <div class="text-right" v-if="!order.is_paid">-->
-<!--          <button class="btn btn-danger">Подтвердить оплату</button>-->
-<!--        </div>-->
-<!--      </form>-->
+      <form @submit.prevent="payOrder">
+        <table class="table mb-3">
+          <thead>
+          <tr>
+            <th>Услуга</th>
+            <th width="25%">Количество</th>
+            <td class="text-right">Цена</td>
+          </tr>
+          </thead>
+          <tbody>
+          <td>{{ favour.title }}</td>
+          <td>{{ orderResponse.qty }} шт.</td>
+          <td class="text-right">{{ orderResponse.sum | currency }}</td>
+          </tbody>
+          <tfoot>
+          <tr class="text-success">
+            <td></td>
+            <td>Сумма</td>
+            <td class="text-right">{{ orderResponse.sum | currency }}</td>
+          </tr>
+          </tfoot>
+        </table>
+        <table class="table mb-3">
+          <tr>
+            <th width="150">Email</th>
+            <td>{{ orderResponse.user.email }}</td>
+          </tr>
+          <tr>
+            <th>Имя получателя</th>
+            <td>{{ orderResponse.user.firstname }} {{ orderResponse.user.lastname }}</td>
+          </tr>
+          <tr>
+            <th>Телефон получателя</th>
+            <td>{{ orderResponse.user.phone }}</td>
+          </tr>
+          <tr>
+            <th>Комментарий к заказу</th>
+            <td>{{ orderResponse.description }}</td>
+          </tr>
+          <tr>
+            <th>Оплата</th>
+            <td v-if="!order.is_paid">Не оплачено</td>
+            <td class="text-success" v-else>Успешный платеж</td>
+          </tr>
+        </table>
+        <div class="text-right" v-if="!order.is_paid">
+          <button class="btn btn-danger">Подтвердить оплату</button>
+        </div>
+      </form>
     </div>
   </div>
 </template>
@@ -253,8 +251,10 @@ export default {
       favour: [],
       qty: 0,
       step: 1,
-      orderId: '',
+      orderId: 0,
+      orderResponse: [],
       order: {
+        is_paid: false,
         favourId: this.id,
         size: 1,
         accessories: false,
@@ -262,6 +262,13 @@ export default {
         qty: this.qty,
         description: '',
         favour: [],
+        user: {
+          phone: '',
+          firstname: '',
+          lastname: '',
+          email: '',
+        },
+        sum: 0,
       },
     };
   },
@@ -315,11 +322,12 @@ export default {
         headers: {
           authorization: `Bearer ${localStorage.user}`,
         },
-      }).then((response) => {
-        this.orderId = response.data;
-        this.getOrder();
-        this.step = 3;
-      });
+      })
+        .then((response) => {
+          this.orderId = response.data;
+          this.getOrder();
+          this.step = 3;
+        });
     },
     getOrder() {
       const url = `${process.env.VUE_APP_APIPATH}/api/orders/${this.orderId}`;
@@ -329,24 +337,24 @@ export default {
         },
       })
         .then((response) => {
-          this.order = response.data.order;
+          this.orderResponse = response.data;
         });
     },
     payOrder() {
       const vm = this;
       const url = `${process.env.VUE_APP_APIPATH}/api/orders/pay/${vm.orderId}`;
-      vm.$http.post(url, {
+      vm.$http.post(url, { num: false }, {
         headers: {
           authorization: `Bearer ${localStorage.user}`,
         },
       })
         .then((response) => {
-          if (response.status.ok) {
+          if (response.data) {
             vm.$store.dispatch('alertMessageModules/updateMessage', {
               message: 'Оплата прошла, спасибо!',
               status: 'success',
-            });
-            vm.getOrder();
+            },
+            this.order.is_paid = true);
           } else {
             vm.$store.dispatch('alertMessageModules/updateMessage', {
               message: 'Произошла ошибка, попробуйте авторизоваться',
