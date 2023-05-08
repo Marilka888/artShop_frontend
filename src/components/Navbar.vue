@@ -4,7 +4,7 @@
       <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Art Company</a>
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
-          <a class="nav-link" href="#" @click.prevent="signout">Выход</a>
+          <router-link class="text-muted" to="/login"> Выход</router-link>
         </li>
       </ul>
     </nav>
@@ -18,19 +18,6 @@ export default {
   data() {
     return {
     };
-  },
-  methods: {
-    signout() {
-      const api = `${process.env.VUE_APP_APIPATH}/logout`;
-      const vm = this;
-      vm.$http.post(api).then((response) => {
-        if (response.data.success) {
-          vm.$router.push('/login');
-          // eslint-disable-next-line
-          alert(response.data.message);
-        }
-      });
-    },
   },
 };
 </script>

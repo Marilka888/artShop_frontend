@@ -56,12 +56,9 @@
         </div>
       </div>
       <div v-else>
-        <router-link to="/admin/ordersmanage" class="w-100 btn btn-primary btn-lg" type="submit">
-          order
-        </router-link>
-        <router-link to="/admin/favoursmanage" class="w-100 btn btn-primary btn-lg" type="submit">
-          favour
-        </router-link>
+          <router-link to="/admin/ordersmanage" class="w-100 btn btn-primary btn-lg" type="submit">
+            Заказы
+          </router-link>
       </div>
     </main>
   </div>
@@ -96,8 +93,7 @@ export default {
       })
         .then((response) => {
           // eslint-disable-next-line no-param-reassign
-          response.data.orders.forEach(ord =>
-            ord.dateOfCreated = ord.dateOfCreated.split('T')[0]);
+          response.data.orders.forEach(ord => ord.dateOfCreated = ord.dateOfCreated.split('T')[0]);
           vm.profile.role = response.data.role;
           vm.profile.firstname = response.data.firstname;
           vm.profile.lastname = response.data.lastname;

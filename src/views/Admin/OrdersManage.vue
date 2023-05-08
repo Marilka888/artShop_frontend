@@ -15,50 +15,60 @@
           <td class="text-center">{{ order.dateOfCreated }}</td>
           <td class="text-left" width="100" v-if="order.favour">{{ order.favour.title }}</td>
           <td class="text-left">
-            <strong class="text-success" v-if="order.stage!==0">Оплаченный</strong>
+            <strong class="text-success" v-if="order.stage!=='CREATED'">Оплаченный</strong>
             <span class="text-muted" v-else>Не оплачен</span>
           </td>
           <td class="text-center">
             <div id="accordion">
               <div class="card mb-3">
-                <div class="card-header" id="headingOne">
-                  <h5 class="mb-0">
-                    <button class="btn btn-link" data-toggle="collapse"
-                            data-target="#collapseOne" aria-expanded="true"
-                            aria-controls="collapseOne">
-                      Подробнее <i class="fas fa-caret-down"></i>
-                    </button>
-                  </h5>
-                </div>
+                <button class="btn btn-link" data-toggle="collapse"
+                        data-target="#collapseOne" aria-expanded="true"
+                        aria-controls="collapseOne" v-if="order.stage==='COMPLETED'"
+                        style="background: #28a745">{{ order.stage }}
+                </button>
+                <button class="btn btn-link" data-toggle="collapse"
+                        data-target="#collapseOne" aria-expanded="true"
+                        aria-controls="collapseOne" v-else style="background: #ff6ffb">
+                  {{ order.stage }}
+                </button>
                 <div id="collapseOne" class="collapse"
                      aria-labelledby="headingOne" data-parent="#accordion">
-                    <div class="col-sm-9 col-12">
-                      <div class="table-responsive">
-                        <div class="table d-table">
-                          <tbody>
-                          <tr>
-                            <th class="text-left">Заказчик:</th>
-                            <td class="text-left" v-if="order.user">
-                              {{ order.user.firstname }} {{ order.user.lastname }}
-                            </td>
-                          </tr>
-                          <tr>
-                            <th class="text-left">Телефон:</th>
-                            <td class="text-left"  v-if="order.user">{{
-                                order.user.phone
-                              }}
-                            </td>
-                          </tr>
-                          <tr>
-                            <th class="text-left">Комментарий:</th>
-                            <td class="text-left">{{ order.description }}</td>
-                          </tr>
-                          <tr>
-                            <th class="text-left">Сумма:</th>
-                            <td class="text-left">{{ order.sum }} ₽</td>
-                          </tr>
-                          </tbody>
-                        </div>
+                    <div class="table-responsive">
+                      <div class="table d-table">
+                        <tbody>
+                        <tr>
+                          <th class="text-left">Заказчик:</th>
+                          <td class="text-left" v-if="order.user">
+                            {{ order.user.firstname }} {{ order.user.lastname }}
+                          </td>
+                        </tr>
+                        <tr>
+                          <th class="text-left">Телефон:</th>
+                          <td class="text-left" v-if="order.user">{{
+                              order.user.phone
+                            }}
+                          </td>
+                        </tr>
+                        <tr>
+                          <th class="text-left">Комментарий:</th>
+                          <td class="text-left">{{ order.description }}</td>
+                        </tr>
+                        <tr>
+                          <th class="text-left">Сумма:</th>
+                          <td class="text-left">{{ order.sum }} ₽</td>
+                        </tr>
+                        <tr>
+                          <th class="text-left">Статус заказа:</th>
+                          <td class="text-left" v-if="order.stage!=='COMPLETED'">
+                            <button type="button" @click="doneOrder(order.id)">
+                              {{ order.stage }}
+                            </button>
+                          </td>
+                          <td class="text-left" v-else>
+                            <strong class="text-success">Выполнен</strong>
+                          </td>
+                        </tr>
+                        </tbody>
                       </div>
                     </div>
                 </div>
@@ -110,6 +120,30 @@ export default {
             });
           }
           vm.$store.dispatch('updateLoading', false);
+        });
+    },
+    doneOrder(id) {
+      const vm = this;
+      const url = `${process.env.VUE_APP_APIPATH}/api/orders/admin/completed/${id}`;
+      vm.$store.dispatch('updateLoading', true);
+      vm.$http.post(url, 1, {
+        headers: {
+          authorization: `Bearer ${localStorage.user}`,
+        },
+      })
+        .then((response) => {
+          if (response.data) {
+            vm.getOrders();
+            vm.$store.dispatch('alertMessageModules/updateMessage', {
+              message: 'Услуга была успешно оказана',
+              status: 'success',
+            });
+          } else {
+            vm.$store.dispatch('alertMessageModules/updateMessage', {
+              message: response.data.message,
+              status: 'danger',
+            });
+          }
         });
     },
   },
